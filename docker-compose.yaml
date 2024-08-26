@@ -1,0 +1,16 @@
+services:
+  db:
+    image: postgres:latest
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_ROOT: solanabetter
+      POSTGRES_DB: kyc
+      POSTGRES_USER: kyc_system
+      POSTGRES_PASSWORD: khaltibetter
+    volumes:
+      - db_data:/var/lib/postgresql/data
+
+volumes:
+  db_data:
+  

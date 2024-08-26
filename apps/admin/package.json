@@ -1,5 +1,5 @@
 {
-  "name": "examples-trpc-next-prisma-starter",
+  "name": "admin",
   "private": true,
   "scripts": {
     "generate": "prisma generate",
