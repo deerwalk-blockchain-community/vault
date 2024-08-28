@@ -3,12 +3,11 @@
  */
 import authRouter from '../modules/auth/router/authRouter';
 import { createCallerFactory, publicProcedure, router } from '../trpc';
-import { postRouter } from './post';
 
 export const appRouter = router({
   healthcheck: publicProcedure.query(() => 'yay!'),
 
-  auth:authRouter
+  auth: authRouter,
 });
 
 export const createCaller = createCallerFactory(appRouter);

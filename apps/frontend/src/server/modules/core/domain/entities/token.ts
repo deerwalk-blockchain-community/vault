@@ -1,3 +1,5 @@
-type Token<T> = {
-  data: T;
+type Token = {
+  jwt: string;
 };
+
+export { type Token };
