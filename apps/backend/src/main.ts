@@ -13,11 +13,10 @@ async function bootstrap() {
     .setTitle('Vault API')
     .setDescription("Auth and User API's for Vault")
     .setVersion('1.0')
-    // .addTag('cats')
     .build();
   app.useGlobalPipes(new ValidationPipe());
   const document = SwaggerModule.createDocument(app, config);
-  SwaggerModule.setup('api', app, document);
+  SwaggerModule.setup('docs', app, document);
 
   await app.listen(PORT);
 }

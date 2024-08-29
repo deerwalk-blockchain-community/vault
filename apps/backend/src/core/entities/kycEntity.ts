@@ -5,12 +5,12 @@ enum Gender {
 }
 
 export class KYCData {
-  public firstName: String;
-  public lastName: String;
-  public nidNumber: String;
-  public nidImageFront: String;
-  public nidImageBack: String;
+  public firstName: string;
+  public lastName: string;
+  public nidNumber: string;
+  public nidImageFront: string;
+  public nidImageBack: string;
   public gender?: Gender;
-  public userId: String;
-  sentToChain: Boolean;
+  public userId: string;
+  sentToChain: boolean;
 }

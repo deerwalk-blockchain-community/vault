@@ -1,9 +1,9 @@
-import bcrypt from 'bcryptjs';
+import * as bcrypt from 'bcrypt';
 
-const SALT_COUNT = 18;
+const SALT_ROUNDS = 3;
 
-async function generateHash(password: string): Promise<string> {
-  return await bcrypt.hash(password, SALT_COUNT);
+async function generateHash(password: string) {
+  return await bcrypt.hash(password, SALT_ROUNDS);
 }
 
 async function compareHash(plain: string, hashed: string) {
