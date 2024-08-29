@@ -36,7 +36,7 @@ export class GetCurrentAdminUser implements NestMiddleware {
       if (!user) {
         return new UnauthorizedException();
       }
-      if(!user.isAdmin){
+      if (!user.isAdmin) {
         return new UnauthorizedException();
       }
       req['user'] = user;

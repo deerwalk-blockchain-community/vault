@@ -1,12 +1,22 @@
-import { Body, Controller, HttpException, Post, Version } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  HttpException,
+  Post,
+  Version,
+  Request,
+  UseGuards,
+} from '@nestjs/common';
 import { RegisterRequest } from './entities/request/registerRequest';
 import { TokenResponse } from './entities/response/tokenResponse';
 import { prisma } from 'src/core/db/prisma';
 import { AuthService } from './auth.service';
 import { JwtService } from '@nestjs/jwt';
-import { tokenSecretKey } from './config';
 import { LoginRequest } from './entities/request/loginRequest';
-
+import { ValidateUserGuard } from './guards/validateUserGuard';
+import { UserWithOutPassword } from 'src/core/entities/userEntity';
+import { ValidateAdminGuard } from './guards/validateAdminGuard';
 @Controller('auth')
 export class AuthController {
   constructor(
@@ -59,5 +69,23 @@ export class AuthController {
     return {
       access_token: token,
     };
+  }
+
+  @Version('1')
+  @Get('me')
+  @UseGuards(ValidateUserGuard)
+  async me(@Request() req: Request) {
+    const { user }: any = req;
+    const realUser = user as UserWithOutPassword;
+    return realUser;
+  }
+
+  @Version('1')
+  @Get('isAdmin')
+  @UseGuards(ValidateAdminGuard)
+  async isAdmin(@Request() req: Request) {
+    const { user }: any = req;
+    const realUser = user as UserWithOutPassword;
+    return realUser;
   }
 }
