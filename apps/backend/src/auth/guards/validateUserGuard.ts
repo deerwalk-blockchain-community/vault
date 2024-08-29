@@ -1,22 +1,21 @@
 import {
-  BadRequestException,
   Injectable,
-  InternalServerErrorException,
-  NestMiddleware,
+  CanActivate,
+  ExecutionContext,
+  BadRequestException,
   UnauthorizedException,
 } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
-import { Request, Response, NextFunction } from 'express';
 import { tokenSecretKey } from '../config';
 import { prisma } from 'src/core/db/prisma';
 
-// export type ExtendedRequest = Request & { user: UserWithOutPassword };
-
 @Injectable()
-export class GetCurrentUser implements NestMiddleware {
+export class ValidateUserGuard implements CanActivate {
   constructor(private jwtService: JwtService) {}
-  async use(req: Request, res: Response, next: NextFunction) {
-    const accessToken = await this.extractTokenFromHeader(req);
+
+  async canActivate(context: ExecutionContext): Promise<boolean> {
+    const request = context.switchToHttp().getRequest();
+    const accessToken = await this.extractTokenFromHeader(request);
     if (!accessToken) {
       throw new BadRequestException();
     }
@@ -34,21 +33,20 @@ export class GetCurrentUser implements NestMiddleware {
           isAdmin: true,
         },
       });
+
       if (!user) {
-        return new UnauthorizedException();
+        throw new UnauthorizedException();
       }
-      res.locals.user = user;
-      // req.user = user
-      next();
+      request['user'] = user;
+      return true;
     } catch {
       throw new BadRequestException();
     }
-    throw new InternalServerErrorException();
   }
-
   private async extractTokenFromHeader(
     request: Request,
   ): Promise<string | undefined> {
-    return request.headers.authorization;
+    const { authorization }: any = request.headers;
+    return authorization;
   }
 }
