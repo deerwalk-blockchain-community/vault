@@ -10,7 +10,6 @@ import { Request, Response, NextFunction } from 'express';
 import { tokenSecretKey } from '../config';
 import { prisma } from 'src/core/db/prisma';
 
-// export type ExtendedRequest = Request & { user: UserWithOutPassword };
 
 @Injectable()
 export class GetCurrentUser implements NestMiddleware {
