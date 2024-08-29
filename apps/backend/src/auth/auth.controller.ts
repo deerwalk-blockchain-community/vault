@@ -39,8 +39,12 @@ export class AuthController {
 
   @Version('1')
   @Post('login')
-  async login(@Body() request : LoginRequest) : Promise<TokenResponse> {
-    const loginResult = await this.authService.loginUser(request.email, request.password, prisma);
+  async login(@Body() request: LoginRequest): Promise<TokenResponse> {
+    const loginResult = await this.authService.loginUser(
+      request.email,
+      request.password,
+      prisma,
+    );
 
     if (loginResult.err) {
       throw new HttpException(
@@ -56,5 +60,4 @@ export class AuthController {
       access_token: token,
     };
   }
-
 }
