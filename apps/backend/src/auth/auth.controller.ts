@@ -17,6 +17,8 @@ import { LoginRequest } from './entities/request/loginRequest';
 import { ValidateUserGuard } from './guards/validateUserGuard';
 import { UserWithOutPassword } from 'src/core/entities/userEntity';
 import { ValidateAdminGuard } from './guards/validateAdminGuard';
+import { ApiTags } from '@nestjs/swagger';
+@ApiTags("Auth")
 @Controller('auth')
 export class AuthController {
   constructor(

@@ -1,13 +1,17 @@
 "use client";
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 import { ToastAction } from "@/components/ui/toast";
 import { useToast } from "@/components/ui/use-toast";
-import React, { EventHandler, useState } from "react";
+import { AuthRepository } from "@/domain/repositories/authRepository";
+import { redirect, useRouter } from "next/navigation";
+import React, { EventHandler, FormEvent, useState } from "react";
 
 const page = () => {
   const { toast } = useToast();
-  const [mail, setMail] = useState("");
-  const [pw, setPw] = useState("");
+  const router = useRouter();
+  const [email, setMail] = useState("");
+  const [password, setPw] = useState("");
 
   const handleMailChange = (e: any) => {
     setMail(e.target.value);
@@ -16,53 +20,57 @@ const page = () => {
     setPw(e.target.value);
   };
 
-  const handleSubmit = async () => {
+  const handleSubmit = async (e: FormEvent) => {
+    e.preventDefault();
     try {
-      const response = await fetch(`http://localhost:1337/v1/auth/register`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/JSON",
-        },
-        body: JSON.stringify({ email: mail, password: pw }),
+      const token = await AuthRepository.register({ email, password });
+      localStorage.setItem("token", JSON.stringify(token));
+      toast({
+        title: "User created successfully",
+        description: "Redirecting to dashboard.....",
       });
-
-      if (response.ok) {
-        const json_token = await response.json();
-        const token = json_token.access_token;
-        localStorage.setItem("token", JSON.stringify(token));
-        toast({
-          title: "user created successfully",
-          description: "Proceed to login",
-        });
-      }
+      router.push("/dashboard");
     } catch (error) {
       toast({
         variant: "destructive",
         title: "Something went wrong!",
+        description: `${error}`,
         action: <ToastAction altText="Try Again">Try Again</ToastAction>,
       });
     }
   };
 
   return (
-    <div className="flex flex-col gap-16 min-h-screen bg-slate-700">
-      <input
-        type="text"
-        onChange={handleMailChange}
-        name="mail"
-        value={mail}
-        placeholder="Enter Email"
-      />
-      <input
-        type="text"
-        onChange={handlePwChange}
-        name="mail"
-        value={pw}
-        placeholder="Enter Password"
-      />
-      <Button type="submit" onClick={handleSubmit}>
-        Test
-      </Button>
+    <div className="flex flex-col items-center justify-center gap-16 min-h-screen bg-slate-700">
+      <p className="text-white">Auth test</p>
+      <form
+        action="POST"
+        onSubmit={handleSubmit}
+        className="flex flex-col gap-5"
+      >
+        <label htmlFor="mail" className="text-white">
+          {" "}
+          mail
+        </label>
+        <Input
+          type="text"
+          onChange={handleMailChange}
+          name="mail"
+          value={email}
+          placeholder="Enter Email"
+        />
+        <label htmlFor="password" className="text-white">
+          Password
+        </label>
+        <Input
+          type="text"
+          onChange={handlePwChange}
+          name="mail"
+          value={password}
+          placeholder="Enter Password"
+        />
+        <Button type="submit">Register</Button>
+      </form>
     </div>
   );
 };
