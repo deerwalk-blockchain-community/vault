@@ -1,5 +1,10 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { FileSystemStoredFile, HasMimeType, IsFile, MaxFileSize } from 'nestjs-form-data';
+import {
+  FileSystemStoredFile,
+  HasMimeType,
+  IsFile,
+  MaxFileSize,
+} from 'nestjs-form-data';
 
 enum Gender {
   MALE = 'MALE',
@@ -29,20 +34,18 @@ export class CreateKycRequest {
   })
   gender: Gender;
 
-  @ApiProperty()
-  @IsFile()
-  @HasMimeType('image/*')
-  profileImage : FileSystemStoredFile
+  //   @ApiProperty()
+  //   @IsFile()
+  //   @HasMimeType('image/*')
+  //   profileImage : FileSystemStoredFile
 
+  //   @ApiProperty()
+  //   @IsFile()
+  //   @HasMimeType('image/*')
+  //   nidImageFront : FileSystemStoredFile
 
-  @ApiProperty()
-  @IsFile()
-  @HasMimeType('image/*')
-  nidImageFront : FileSystemStoredFile
-
-  @ApiProperty()
-  @IsFile()
-  @HasMimeType('image/*')
-  nidImageBack : FileSystemStoredFile
-
+  //   @ApiProperty()
+  //   @IsFile()
+  //   @HasMimeType('image/*')
+  //   nidImageBack : FileSystemStoredFile
 }

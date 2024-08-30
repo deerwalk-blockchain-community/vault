@@ -10,8 +10,10 @@ import {
 import { ValidateUserGuard } from 'src/auth/guards/validateUserGuard';
 import { CreateKycRequest } from './entities/request/createKycrequest';
 import { ApiTags } from '@nestjs/swagger';
-// import { FileFieldsInterceptor,} from '@nestjs/platform-express';
-import { FormDataRequest } from "nestjs-form-data"
+import {
+  FileFieldsInterceptor,
+  FileInterceptor,
+} from '@nestjs/platform-express';
 
 @Controller('kyc')
 @ApiTags('KYC')
@@ -19,15 +21,23 @@ export class KycController {
   @Version('1')
   @Post('')
   @UseGuards(ValidateUserGuard)
-  @FormDataRequest()
+  @UseInterceptors(
+    FileFieldsInterceptor([
+      { name: 'profileImage', maxCount:1 },
+      { name: 'nidFrontImage', maxCount : 1},
+      { name: 'nidBackImage', maxCount:1 },
+    ]),
+  )
   async postKyc(
     @Body() request: CreateKycRequest,
     @UploadedFiles()
     files: {
-      avatar?: Express.Multer.File[];
-      background?: Express.Multer.File[];
+      profileImage?: Express.Multer.File
+      nidFrontImage?: Express.Multer.File
+      nidBackImage?: Express.Multer.File
     },
   ) {
     console.log(request);
+    console.log(files);
   }
 }
