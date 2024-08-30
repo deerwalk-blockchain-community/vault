@@ -13,6 +13,13 @@ enum Gender {
   OTHER
 }
 
+enum KYCStatus {
+  ACCEPTED
+  REJECTED
+  APPLIED
+}
+
+// binit dai, you just need to implement the core User and KYC Model not the status and other Admin parts, also will have to use IPFS for files:) or we can push hashes of files to the chain whatever you prefer:)
 model Users {
   id String @id @default(uuid())
   email String @unique 
@@ -29,7 +36,19 @@ model KYC{
   nidImageFront String 
   nidImageBack String
   gender Gender?
+  profileImage String
   userId String @unique
   user Users @relation(fields: [userId], references: [id])
   sentToChain Boolean @default(false)
+  status KYCStatus
+  kycId String?
+  rejections Rejections[]
 } 
+
+model Rejections{
+  id Int @id @default(autoincrement())
+  reason String
+  kycId Int 
+  kyc KYC @relation(fields:[kycId], references: [id])
+
+}
