@@ -9,8 +9,9 @@ export class KYCData {
   public lastName: string;
   public nidNumber: string;
   public nidImageFront: string;
+  public profileImage: string;
   public nidImageBack: string;
   public gender?: Gender;
   public userId: string;
-  sentToChain: boolean;
+  public sentToChain: boolean;
 }
