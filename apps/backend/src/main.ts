@@ -3,7 +3,7 @@ import { AppModule } from './app.module';
 import { ValidationPipe, VersioningType } from '@nestjs/common';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 
-require("dotenv").config()
+require('dotenv').config();
 
 async function bootstrap() {
   const PORT = 1337;
