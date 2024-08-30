@@ -10,7 +10,6 @@ import { Request, Response, NextFunction } from 'express';
 import { tokenSecretKey } from '../config';
 import { prisma } from 'src/core/db/prisma';
 
-
 @Injectable()
 export class GetCurrentUser implements NestMiddleware {
   constructor(private jwtService: JwtService) {}

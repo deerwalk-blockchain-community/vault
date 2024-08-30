@@ -3,9 +3,10 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { AuthModule } from './auth/auth.module';
 import { CoreModule } from './core/core.module';
+import { KycModule } from './kyc/kyc.module';
 
 @Module({
-  imports: [AuthModule, CoreModule],
+  imports: [AuthModule, CoreModule, KycModule],
   controllers: [AppController],
   providers: [AppService],
 })
