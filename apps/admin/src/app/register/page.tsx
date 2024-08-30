@@ -1,5 +1,6 @@
 "use client";
 import { Button } from "@/components/ui/button";
+import { ToastAction } from "@/components/ui/toast";
 import { useToast } from "@/components/ui/use-toast";
 import React, { EventHandler, useState } from "react";
 
@@ -15,11 +16,32 @@ const page = () => {
     setPw(e.target.value);
   };
 
-  const handleSubmit = () => {
-    toast({
-      title: "click registered",
-      description: "done",
-    });
+  const handleSubmit = async () => {
+    try {
+      const response = await fetch(`http://localhost:1337/v1/auth/register`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/JSON",
+        },
+        body: JSON.stringify({ email: mail, password: pw }),
+      });
+
+      if (response.ok) {
+        const json_token = await response.json();
+        const token = json_token.access_token;
+        localStorage.setItem("token", JSON.stringify(token));
+        toast({
+          title: "user created successfully",
+          description: "Proceed to login",
+        });
+      }
+    } catch (error) {
+      toast({
+        variant: "destructive",
+        title: "Something went wrong!",
+        action: <ToastAction altText="Try Again">Try Again</ToastAction>,
+      });
+    }
   };
 
   return (
