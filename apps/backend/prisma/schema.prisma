@@ -50,5 +50,4 @@ model Rejections{
   reason String
   kycId Int 
   kyc KYC @relation(fields:[kycId], references: [id])
-
 }
