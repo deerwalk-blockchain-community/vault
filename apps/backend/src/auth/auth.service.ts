@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import { Injectable } from '@nestjs/common';
 import { PrismaClient } from '@prisma/client';
 import { UserWithOutPassword } from 'src/core/entities/userEntity';
