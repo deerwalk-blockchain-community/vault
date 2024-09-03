@@ -15,7 +15,7 @@ export class UsersService {
       skip: offset,
       take: limit,
       orderBy: {
-        id: descending ? 'desc' : 'asc',
+        updatedAt: descending ? 'desc' : 'asc',
       },
       select: {
         email: true,
