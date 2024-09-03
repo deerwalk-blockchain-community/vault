@@ -2,6 +2,8 @@ import { Injectable } from '@nestjs/common';
 import * as fs from 'fs';
 import * as path from 'path';
 import * as crypto from 'crypto';
+import { prisma } from 'src/core/db/prisma';
+import { genderFromString, kycStatusFromString } from './utils/conversionUtil';
 
 @Injectable()
 export class KycService {
@@ -44,5 +46,31 @@ export class KycService {
 
     return savedFiles;
   }
-  createKYCEntry() {}
+  async createKYCEntry(
+    firstName: string,
+    lastName: string,
+    genderStr: string,
+    nidNumber: string,
+    nidImageFront: string,
+    nidImageBack: string,
+    profileImage: string,
+    userId: string,
+    statusStr: string,
+  ) {
+    const gender = await genderFromString(genderStr);
+    const status = await kycStatusFromString(statusStr);
+    return await prisma.kYCData.create({
+      data: {
+        firstName,
+        lastName,
+        nidNumber,
+        gender,
+        nidImageFront,
+        nidImageBack,
+        profileImage,
+        userId,
+        status,
+      },
+    });
+  }
 }

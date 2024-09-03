@@ -16,6 +16,7 @@ import { KycService } from './kyc.service';
 import { prisma } from 'src/core/db/prisma';
 import { UserWithOutPassword } from 'src/core/entities/userEntity';
 import { User } from './decorators/userDecorator';
+import { KYCStatus } from '@prisma/client';
 
 @Controller('kyc')
 @ApiTags('KYC')
@@ -53,7 +54,18 @@ export class KycController {
     }
     const savedFiles = await this.kycService.saveMultipleFiles(files);
     console.log(savedFiles);
+    const created =  await this.kycService.createKYCEntry(
+      request.firstName as string,
+      request.lastName as string,
+      request.gender,
+      request.nidNumber as string,
+      savedFiles.nidFrontImage,
+      savedFiles.nidBackImage,
+      savedFiles.profileImage,
+      user.id,
+      KYCStatus.APPLIED,
+    );
 
-    return { yes: 'works' };
+    return created
   }
 }
