@@ -16,7 +16,11 @@ async function bootstrap() {
     .setDescription("Auth and User API's for Vault")
     .setVersion('1.0')
     .build();
-  app.useGlobalPipes(new ValidationPipe());
+  app.useGlobalPipes(
+    new ValidationPipe({
+      transform: true,
+    }),
+  );
   app.enableCors()
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('docs', app, document);
