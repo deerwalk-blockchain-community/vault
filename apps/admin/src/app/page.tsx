@@ -1,9 +1,9 @@
+"use client";
+import useAuthRedirect from "@/hooks/useAuthRedirect";
+import { AppProps } from "next/app";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 
-export default function Home() {
-  return (
-    <main className="flex min-h-screen bg-slate-600 flex-col items-center justify-between p-24 ">
-      HomePage
-    </main>
-  );
+export default function Home({ Component, pageProps }: AppProps) {
+  useAuthRedirect();
 }
