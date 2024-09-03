@@ -29,10 +29,10 @@ export class CreateKycRequest {
   gender: Gender;
 
   @ApiProperty({
-    required:true,
-    description:"Address of the User"
+    required: true,
+    description: 'Address of the User',
   })
-  address : string
+  address: string;
 
   //   @ApiProperty()
   //   @IsFile()

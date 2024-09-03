@@ -11,6 +11,7 @@ export class KYCData {
   public nidImageFront: string;
   public profileImage: string;
   public nidImageBack: string;
+  public address: string;
   public gender?: Gender;
   public userId: string;
   public sentToChain: boolean;

@@ -53,8 +53,7 @@ export class KycController {
       });
     }
     const savedFiles = await this.kycService.saveMultipleFiles(files);
-    console.log(savedFiles);
-    const created =  await this.kycService.createKYCEntry(
+    const created = await this.kycService.createKYCEntry(
       request.firstName as string,
       request.lastName as string,
       request.gender,
@@ -66,6 +65,8 @@ export class KycController {
       KYCStatus.APPLIED,
     );
 
-    return created
+    return created;
   }
+  
+
 }
