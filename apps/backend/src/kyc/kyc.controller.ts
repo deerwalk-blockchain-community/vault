@@ -67,6 +67,4 @@ export class KycController {
 
     return created;
   }
-  
-
 }
