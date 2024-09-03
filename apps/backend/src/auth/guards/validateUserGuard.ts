@@ -15,9 +15,12 @@ export class ValidateUserGuard implements CanActivate {
 
   async canActivate(context: ExecutionContext): Promise<boolean> {
     const request = context.switchToHttp().getRequest();
-    const accessToken = await this.extractTokenFromHeader(request);
+    const requestToken = await this.extractTokenFromHeader(request);
+    const accessToken = requestToken?.split(' ')[1];
     if (!accessToken) {
-      throw new BadRequestException();
+      throw new BadRequestException({
+        message: 'Invalid JWT!',
+      });
     }
     try {
       const object = await this.jwtService.verifyAsync(accessToken, {
@@ -35,12 +38,16 @@ export class ValidateUserGuard implements CanActivate {
       });
 
       if (!user) {
-        throw new UnauthorizedException();
+        throw new UnauthorizedException({
+          message: 'Invalid JWT!!',
+        });
       }
       request['user'] = user;
       return true;
-    } catch {
-      throw new BadRequestException();
+    } catch (e) {
+      throw new BadRequestException({
+        e,
+      });
     }
   }
   private async extractTokenFromHeader(
