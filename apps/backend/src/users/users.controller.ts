@@ -15,6 +15,7 @@ import { DefaultQueryParams } from 'src/core/entities/queryParamEntity';
 import { UsersService } from './users.service';
 import { KYCVerdictRequest } from './entities/request/kycVerdictRequest';
 import { NotFoundException } from 'src/core/exc/defaultExceptions';
+import { KYCStatus } from '@prisma/client';
 
 @ApiTags('Users')
 @Controller('users')
@@ -54,13 +55,9 @@ export class UsersController {
     switch (request.verdict.toString()) {
       case 'REJECTED':
         await this.userService.rejectKyc(user.kyc?.id!, request.reason!);
+        return this.userService.setUserStatus(userId, KYCStatus.REJECTED);
       case 'ACCEPTED':
-        const setStatusResult = this.userService.setUserStatus(
-          userId,
-          request.verdict.toString(),
-        );
-        break;
-        return setStatusResult;
+        return this.userService.setUserStatus(userId, KYCStatus.ACCEPTED);
       //
       default:
         throw new BadRequestException();
