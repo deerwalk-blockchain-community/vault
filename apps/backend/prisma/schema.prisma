@@ -41,6 +41,7 @@ model KYCData {
   user Users @relation(fields: [userId], references: [id])
   sentToChain Boolean @default(false)
   status KYCStatus
+  address String
   kycId String?
   rejections Rejections[]
 } 

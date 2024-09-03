@@ -28,6 +28,12 @@ export class CreateKycRequest {
   })
   gender: Gender;
 
+  @ApiProperty({
+    required:true,
+    description:"Address of the User"
+  })
+  address : string
+
   //   @ApiProperty()
   //   @IsFile()
   //   @HasMimeType('image/*')

@@ -7,6 +7,7 @@ import { KycModule } from './kyc/kyc.module';
 import { ServeStaticModule } from '@nestjs/serve-static';
 import { MulterModule } from '@nestjs/platform-express';
 import { UPLOAD_PATH } from './core/config';
+import { UsersModule } from './users/users.module';
 
 @Module({
   imports: [
@@ -18,6 +19,7 @@ import { UPLOAD_PATH } from './core/config';
     AuthModule,
     CoreModule,
     KycModule,
+    UsersModule,
   ],
   controllers: [AppController],
   providers: [AppService],
