@@ -1,5 +1,6 @@
 import {
   Body,
+  ConflictException,
   Controller,
   Post,
   UploadedFiles,
@@ -10,34 +11,49 @@ import {
 import { ValidateUserGuard } from 'src/auth/guards/validateUserGuard';
 import { CreateKycRequest } from './entities/request/createKycrequest';
 import { ApiTags } from '@nestjs/swagger';
-import {
-  FileFieldsInterceptor,
-  FileInterceptor,
-} from '@nestjs/platform-express';
+import { FileFieldsInterceptor } from '@nestjs/platform-express';
+import { KycService } from './kyc.service';
+import { prisma } from 'src/core/db/prisma';
+import { UserWithOutPassword } from 'src/core/entities/userEntity';
+import { User } from './decorators/userDecorator';
 
 @Controller('kyc')
 @ApiTags('KYC')
 export class KycController {
+  constructor(private readonly kycService: KycService) {}
   @Version('1')
   @Post('')
   @UseGuards(ValidateUserGuard)
   @UseInterceptors(
     FileFieldsInterceptor([
-      { name: 'profileImage', maxCount:1 },
-      { name: 'nidFrontImage', maxCount : 1},
-      { name: 'nidBackImage', maxCount:1 },
+      { name: 'profileImage', maxCount: 1 },
+      { name: 'nidFrontImage', maxCount: 1 },
+      { name: 'nidBackImage', maxCount: 1 },
     ]),
   )
   async postKyc(
+    @User() user: UserWithOutPassword,
     @Body() request: CreateKycRequest,
     @UploadedFiles()
     files: {
-      profileImage?: Express.Multer.File
-      nidFrontImage?: Express.Multer.File
-      nidBackImage?: Express.Multer.File
+      profileImage?: Express.Multer.File[];
+      nidFrontImage?: Express.Multer.File[];
+      nidBackImage?: Express.Multer.File[];
     },
   ) {
-    console.log(request);
-    console.log(files);
+    const alreadyKyc = await prisma.kYCData.findUnique({
+      where: {
+        userId: user.id,
+      },
+    });
+    if (alreadyKyc) {
+      throw new ConflictException({
+        message: "User KYC Already Exists! Can't Post Twice!",
+      });
+    }
+    const savedFiles = await this.kycService.saveMultipleFiles(files);
+    console.log(savedFiles);
+
+    return { yes: 'works' };
   }
 }

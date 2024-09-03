@@ -1,10 +1,4 @@
 import { ApiProperty } from '@nestjs/swagger';
-import {
-  FileSystemStoredFile,
-  HasMimeType,
-  IsFile,
-  MaxFileSize,
-} from 'nestjs-form-data';
 
 enum Gender {
   MALE = 'MALE',

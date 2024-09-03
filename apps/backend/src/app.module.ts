@@ -10,8 +10,11 @@ import { UPLOAD_PATH } from './core/config';
 
 @Module({
   imports: [
-    ServeStaticModule.forRoot({ rootPath: UPLOAD_PATH }),
-    MulterModule.register({ dest: UPLOAD_PATH, limits: { fileSize: 10e6 } }),
+    MulterModule.register({ dest: './uploads', limits: { fileSize: 10e6 } }),
+    ServeStaticModule.forRoot({
+      rootPath: UPLOAD_PATH,
+      serveRoot: '/v1/uploads',
+    }),
     AuthModule,
     CoreModule,
     KycModule,
