@@ -1,7 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { KYCStatus } from '@prisma/client';
 import { prisma } from 'src/core/db/prisma';
-import { kycStatusFromString } from 'src/kyc/utils/conversionUtil';
 
 @Injectable()
 export class UsersService {
@@ -79,7 +78,7 @@ export class UsersService {
       skip: offset,
       where: {
         kyc: {
-        userId:options.userId
+          userId: options.userId,
         },
       },
       orderBy: {
