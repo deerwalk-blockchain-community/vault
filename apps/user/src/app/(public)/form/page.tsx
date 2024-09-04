@@ -5,6 +5,7 @@ import Step1 from "../(steps)/Step1";
 import Step2 from "../(steps)/Step2";
 import Profile from "./components/Profile";
 import SideBar from "ui/SideBar";
+import Step3 from "../(steps)/Step3";
 
 const Page = () => {
   const [activeTab, setActive] = useState(1);
@@ -22,6 +23,7 @@ const Page = () => {
   const formElements = [
     <Step1 handleNextStep={handleNextStep} />,
     <Step2 handleNextStep={handleNextStep} />,
+    <Step3 handleNextStep={handleNextStep} />,
   ];
 
   return (
