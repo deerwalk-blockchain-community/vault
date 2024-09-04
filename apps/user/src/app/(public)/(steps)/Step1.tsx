@@ -24,12 +24,12 @@ const Step1 = ({ handleNextStep }: { handleNextStep: any }) => {
       <SideBar />
       <Profile />
       <div className="mt-10">
-        <div className="bg-[#1a1b1d] w-[75%] mt-48 h-[75%] mx-auto rounded-xl">
+        <div className="bg-[#1a1b1d] w-[85%] mt-48 h-[75%]  mx-auto rounded-xl">
           <h1 className="text-center text-2xl font-semibold pt-8 ">
             Upload Your personal information
           </h1>
           <form>
-            <div className="grid grid-cols-10 mt-12 gap-10">
+            <div className="grid grid-cols-10 mt-12 place-items-center w-[90%] mx-auto">
               <div className="col-span-4 grid grid-cols-4 gap-5">
                 <div className="col-span-2">
                   <label>First Name</label>
@@ -60,7 +60,7 @@ const Step1 = ({ handleNextStep }: { handleNextStep: any }) => {
                   <Input type="text"></Input>
                 </div>
               </div>
-              <div className="col-span-6 flex items-center justify-center w-full">
+              <div className="col-span-6 flex items-center justify-end w-full">
                 <label
                   htmlFor="dropzone-file"
                   className="flex flex-col items-center justify-center w-3/5 aspect-square border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-[#242424] hover:bg-[#383737]"
@@ -95,7 +95,7 @@ const Step1 = ({ handleNextStep }: { handleNextStep: any }) => {
                 </label>
               </div>
             </div>
-            <div className="flex justify-center items-center gap-4 mt-2 pb-4">
+            <div className="flex justify-center items-center gap-4 mt-12 pb-4">
               <Button className="border">Back</Button>
               <Button className="border border-yellow-500" onClick={handleSave}>
                 Save and Continue

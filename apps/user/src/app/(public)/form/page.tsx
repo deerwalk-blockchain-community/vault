@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-key */
 "use client";
 import { useState } from "react";
 import Step1 from "../(steps)/Step1";
@@ -24,7 +25,7 @@ const Page = () => {
   ];
 
   return (
-    <div className="flex flex-col items-center">
+    <div className="flex flex-col items-center w-full">
       <div className="absolute left-1/2 transform -translate-x-1/2">
         <div className="flex flex-row justify-between mt-5 ">
           {steps.map((step, i) => (
@@ -40,7 +41,7 @@ const Page = () => {
           ))}
         </div>
       </div>
-      <div className="">{formElements[activeTab - 1]}</div>
+      <div className="w-[95%] mx-auto">{formElements[activeTab - 1]}</div>
     </div>
   );
 };

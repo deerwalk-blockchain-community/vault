@@ -9,10 +9,10 @@ const Step2 = ({ handleNextStep }: { handleNextStep: any }) => {
     handleNextStep();
   };
   return (
-    <div className="flex flex-row">
+    <div className="flex flex-row w-full ">
       <SideBar />
       <Profile />
-      <div className="mt-10">
+      <div className="mt-10 w-full">
         <Form handleNextStep={handleSave} />
       </div>
     </div>

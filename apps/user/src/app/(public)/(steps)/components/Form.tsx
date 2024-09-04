@@ -5,7 +5,7 @@ import ButtonNoFill from "ui/buttonNoFill";
 const Form = ({ handleNextStep }: { handleNextStep: any }) => {
   const countries: string[] = ["USA", "Nepal", "Japan"];
   return (
-    <div className="bg-[#1a1b1d] w-[75%] mt-24 h-[85%] mx-auto rounded-xl">
+    <div className="bg-[#1a1b1d] w-[70%] mt-24 mx-auto rounded-xl">
       <h1 className="text-center text-2xl font-semibold pt-8">
         Upload Proof of Your Identity
       </h1>
@@ -22,7 +22,7 @@ const Form = ({ handleNextStep }: { handleNextStep: any }) => {
           <div className="flex items-center justify-center w-2/5">
             <label
               htmlFor="dropzone-file"
-              className="flex flex-col items-center justify-center w-full aspect-square border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-[#242424] hover:bg-[#383737]"
+              className="flex flex-col items-center justify-center w-[75%] aspect-square border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-[#242424] hover:bg-[#383737]"
             >
               <div className="flex flex-col items-center justify-center pt-5 pb-6">
                 <svg
@@ -55,7 +55,7 @@ const Form = ({ handleNextStep }: { handleNextStep: any }) => {
           <div className="flex items-center justify-center w-2/5">
             <label
               htmlFor="dropzone-file"
-              className="flex flex-col items-center justify-center w-full aspect-square border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-[#242424] hover:bg-[#383737]"
+              className="flex flex-col items-center justify-center w-[75%] aspect-square border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-[#242424] hover:bg-[#383737]"
             >
               <div className="flex flex-col items-center justify-center pt-5 pb-6">
                 <svg
@@ -87,7 +87,7 @@ const Form = ({ handleNextStep }: { handleNextStep: any }) => {
         </div>
 
         {/* Flexbox wrapper for buttons */}
-        <div className="w-full flex justify-center gap-4 mt-8">
+        <div className="w-full flex justify-center gap-4 mt-8 pb-6">
           <Button className="border">Back</Button>
           <Button className="border border-yellow-500" onClick={handleNextStep}>
             Save and Continue
