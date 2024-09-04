@@ -59,6 +59,7 @@ export class KycController {
       request.gender,
       request.nidNumber as string,
       savedFiles.nidFrontImage,
+      request.address as string,
       savedFiles.nidBackImage,
       savedFiles.profileImage,
       user.id,
@@ -67,6 +68,4 @@ export class KycController {
 
     return created;
   }
-  
-
 }

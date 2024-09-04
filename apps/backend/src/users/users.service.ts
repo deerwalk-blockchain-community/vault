@@ -1,5 +1,7 @@
 import { Injectable } from '@nestjs/common';
+import { KYCStatus } from '@prisma/client';
 import { prisma } from 'src/core/db/prisma';
+import { kycStatusFromString } from 'src/kyc/utils/conversionUtil';
 
 @Injectable()
 export class UsersService {
@@ -14,7 +16,7 @@ export class UsersService {
       skip: offset,
       take: limit,
       orderBy: {
-        id: descending ? 'desc' : 'asc',
+        updatedAt: descending ? 'desc' : 'asc',
       },
       select: {
         email: true,
@@ -39,6 +41,28 @@ export class UsersService {
         isAdmin: false,
         id: true,
         kyc: true,
+      },
+    });
+  }
+
+  async setUserStatus(userId: string, status: KYCStatus) {
+    const updated = await prisma.kYCData.update({
+      where: {
+        userId: userId,
+      },
+      data: {
+        status: status,
+      },
+    });
+
+    return updated;
+  }
+
+  async rejectKyc(kycId: number, reason: string) {
+    return await prisma.rejections.create({
+      data: {
+        kycId: kycId,
+        reason: reason,
       },
     });
   }

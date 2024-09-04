@@ -11,17 +11,17 @@ export class CreateKycRequest {
     required: true,
     description: 'First Name of Person',
   })
-  firstName: String;
+  firstName: string;
   @ApiProperty({
     required: true,
     description: 'Last Name of Person',
   })
-  lastName: String;
+  lastName: string;
   @ApiProperty({
     required: true,
     description: 'National ID Card Number',
   })
-  nidNumber: String;
+  nidNumber: string;
   @ApiProperty({
     required: true,
     description: 'Gender of Person',
