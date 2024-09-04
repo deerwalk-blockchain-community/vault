@@ -58,7 +58,7 @@ const page = () => {
           <OverallSummary />
           <Overview />
           <div className="col-span-3">
-            <Datatable />
+            <Datatable limit={3} />
           </div>
         </div>
       </div>

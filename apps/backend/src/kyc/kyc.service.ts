@@ -52,10 +52,11 @@ export class KycService {
     genderStr: string,
     nidNumber: string,
     nidImageFront: string,
+    address: string,
     nidImageBack: string,
     profileImage: string,
     userId: string,
-    statusStr: string,
+    statusStr: string
   ) {
     const gender = await genderFromString(genderStr);
     const status = await kycStatusFromString(statusStr);
@@ -68,6 +69,7 @@ export class KycService {
         nidImageFront,
         nidImageBack,
         profileImage,
+        address,
         userId,
         status,
       },
