@@ -16,9 +16,12 @@ import { UsersService } from './users.service';
 import { KYCVerdictRequest } from './entities/request/kycVerdictRequest';
 import { NotFoundException } from 'src/core/exc/defaultExceptions';
 import { KYCStatus } from '@prisma/client';
+import { ValidateUserGuard } from 'src/auth/guards/validateUserGuard';
+import { User } from 'src/kyc/decorators/userDecorator';
+import { UserWithOutPassword } from 'src/core/entities/userEntity';
 
 @ApiTags('Users')
-@Controller('users')
+@Controller('user')
 export class UsersController {
   constructor(private readonly userService: UsersService) {}
 
@@ -47,6 +50,7 @@ export class UsersController {
     @Param('userId') userId: string,
     @Body() request: KYCVerdictRequest,
   ) {
+    console.log(request);
     const user = await this.userService.getUserById(userId);
     if (!user) {
       throw new NotFoundException('User was not Found', ['userId']);
@@ -62,5 +66,21 @@ export class UsersController {
       default:
         throw new BadRequestException();
     }
+  }
+
+  @Version('1')
+  @Get(':userId/rejections')
+  @UseGuards(ValidateUserGuard)
+  async getRejections(
+    @Param('userId') userId: string,
+    @User() user: UserWithOutPassword,
+    @Query() queryParams: DefaultQueryParams,
+  ) {
+    return await this.userService.getRejectionsWithPagination({
+      descending: queryParams.descending,
+      limit: queryParams.limit,
+      page: queryParams.page,
+      userId: user.id,
+    });
   }
 }
