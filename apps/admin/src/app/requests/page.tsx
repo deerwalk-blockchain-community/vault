@@ -1,17 +1,18 @@
 "use client";
 import React, { useState } from "react";
-import Sidebar from "@/../../../packages/ui/src/Sidebar";
+// import Sidebar from "@/../../../packages/ui/src/Sidebar";
 import Profile from "@/components/ui/Profile";
 import { RefreshCwIcon, Search, SlidersHorizontalIcon } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import Datatable from "../dashboard/components/Datatable";
+import SideBar from "@/components/ui/SideBar";
 
 const Page = () => {
   const [searchQuery, setSearchQuery] = useState("");
 
   return (
     <div className="flex flex-row">
-      <Sidebar />
+      <SideBar />
       <Profile />
 
       <div className="flex flex-1 flex-col justify-center items-center">

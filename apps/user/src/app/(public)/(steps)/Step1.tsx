@@ -1,9 +1,9 @@
-import { Card } from "@/components/ui/card";
+// src/app/(steps)/Step1.tsx
+
+import { useState } from "react";
 import { Input } from "@/components/ui/input";
-import React from "react";
-import ButtonFill from "ui/buttonFill";
-import ButtonNoFill from "ui/buttonNoFill";
-import SideBar from "ui/SideBar";
+import { Button } from "@/components/ui/button";
+import SideBar from "@/components/ui/SideBar";
 import Profile from "../form/components/Profile";
 import {
   Select,
@@ -12,38 +12,75 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { Button } from "@/components/ui/button";
 
-const Step1 = ({ handleNextStep }: { handleNextStep: any }) => {
+const Step1 = ({
+  handleNextStep,
+  formData,
+  setFormData,
+}: {
+  handleNextStep: any;
+  formData: any;
+  setFormData?: any;
+}) => {
+  const handleInputChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
+  ) => {
+    const { name, value } = e.target;
+    setFormData({
+      personalInfo: {
+        ...formData,
+        [name]: value,
+      },
+    });
+  };
+
   const handleSave = () => {
-    alert("working1");
+    console.log(formData);
     handleNextStep();
   };
+
   return (
     <div className="flex flex-row">
       <SideBar />
       <Profile />
       <div className="mt-10">
-        <div className="bg-[#1a1b1d] w-[85%] mt-48 h-[75%]  mx-auto rounded-xl">
+        <div className="bg-[#1a1b1d] w-[85%] mt-48 h-[75%] mx-auto rounded-xl">
           <h1 className="text-center text-2xl font-semibold pt-8 ">
-            Upload Your personal information
+            Upload Your Personal Information
           </h1>
           <form>
             <div className="grid grid-cols-10 mt-12 place-items-center w-[90%] mx-auto">
               <div className="col-span-4 grid grid-cols-4 gap-5">
                 <div className="col-span-2">
                   <label>First Name</label>
-                  <Input type="text" className="text-black" />
+                  <Input
+                    name="firstName"
+                    type="text"
+                    className="text-black"
+                    value={formData.firstName}
+                    onChange={handleInputChange}
+                  />
                 </div>
                 <div className="col-span-2">
                   <label>Last Name</label>
-                  <Input type="text" className="text-black" />
+                  <Input
+                    name="lastName"
+                    type="text"
+                    className="text-black"
+                    value={formData.lastName}
+                    onChange={handleInputChange}
+                  />
                 </div>
                 <div className="col-span-2">
                   <label>Gender</label>
-                  <Select defaultValue="male">
-                    <SelectTrigger className="w-[180px] text-white ">
-                      <SelectValue placeholder="choose gender"></SelectValue>
+                  <Select
+                    defaultValue="male"
+                    name="gender"
+                    value={formData.gender}
+                    onValueChange={handleInputChange as any}
+                  >
+                    <SelectTrigger className="w-[180px]">
+                      <SelectValue placeholder="Choose Gender"></SelectValue>
                     </SelectTrigger>
                     <SelectContent className="bg-white text-black">
                       <SelectItem value="male">Male</SelectItem>
@@ -53,11 +90,21 @@ const Step1 = ({ handleNextStep }: { handleNextStep: any }) => {
                 </div>
                 <div className="col-span-4">
                   <label>NID Number</label>
-                  <Input type="number"></Input>
+                  <Input
+                    name="nidNumber"
+                    type="number"
+                    value={formData.nidNumber}
+                    onChange={handleInputChange}
+                  />
                 </div>
                 <div className="col-span-4">
                   <label>Address</label>
-                  <Input type="text"></Input>
+                  <Input
+                    name="address"
+                    type="text"
+                    value={formData.address}
+                    onChange={handleInputChange}
+                  />
                 </div>
               </div>
               <div className="col-span-6 flex items-center justify-end w-full">
@@ -88,7 +135,7 @@ const Step1 = ({ handleNextStep }: { handleNextStep: any }) => {
                       Note: Do not use Filters/Effects on the picture
                     </p>
                     <p className="text-xs text-gray-400">
-                      SVG, PNG, JPG or GIF
+                      SVG, PNG, JPG, or GIF
                     </p>
                   </div>
                   <input id="dropzone-file" type="file" className="hidden" />
