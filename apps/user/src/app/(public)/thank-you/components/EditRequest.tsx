@@ -6,7 +6,7 @@ const EditRequest = () => {
       <div className="w-[90%] mx-auto py-8">
         <div className="text-center ">
           <Button className="bg-[#242424]"> Request to Edit Your Data </Button>
-          <p className="mt-8">If you have any queries, Contact Us</p>
+          <p className="mt-8">If you have any queries, Contactdad Us</p>
         </div>
       </div>
     </div>
