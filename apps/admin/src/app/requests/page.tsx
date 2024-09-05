@@ -1,6 +1,5 @@
 "use client";
 import React, { useState } from "react";
-// import Sidebar from "@/../../../packages/ui/src/Sidebar";
 import Profile from "@/components/ui/Profile";
 import { RefreshCwIcon, Search, SlidersHorizontalIcon } from "lucide-react";
 import { Input } from "@/components/ui/input";

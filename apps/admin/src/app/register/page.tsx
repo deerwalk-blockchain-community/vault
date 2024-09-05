@@ -23,9 +23,7 @@ const page = () => {
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
     try {
-      const token = {
-        value: await AuthRepository.register({ email, password }),
-      };
+      const token = await AuthRepository.register({ email, password });
       localStorage.setItem("token", JSON.stringify(token));
       toast({
         title: "User created successfully",

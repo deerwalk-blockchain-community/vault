@@ -53,12 +53,14 @@ const page = () => {
           name="mail"
           value={email}
           placeholder="Enter Email"
+          className="text-black"
         />
         <input
           type="text"
           onChange={handlePwChange}
           name="mail"
           value={password}
+          className="text-black"
           placeholder="Enter Password"
         />
         <Button type="submit">Login</Button>

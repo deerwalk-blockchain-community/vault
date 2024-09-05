@@ -10,7 +10,7 @@ export class APIUserRepository{
         this.token = token;
     }
     async getUserInfo():Promise<User>{
-        const res = await fetch("http://locahost:1337/v1/auth/me", {
+        const res = await fetch("http://localhost:1337/v1/user/kyc", {
             headers:{
                 'Authorization': `Bearer ${this.token}`
             }

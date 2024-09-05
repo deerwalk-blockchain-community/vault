@@ -2,6 +2,9 @@
 
 import SideBar from "@/components/ui/SideBar";
 import PersonalInformation from "./components/PersonalInformation";
+import { useRouter } from "next/navigation";
+import { useToast } from "@/hooks/use-toast";
+import { ToastAction } from "@/components/ui/toast";
 
 const Step3 = ({
   handleNextStep,
@@ -14,8 +17,12 @@ const Step3 = ({
   formData: any;
   handleFormDataChange: any;
 }) => {
+  const router = useRouter();
+  const { toast } = useToast();
+
   const token = JSON.parse(localStorage.getItem("token") || "");
   console.log(token);
+
   const data = new FormData();
   const handleSubmit = async () => {
     data.append("firstName", formData.personalInfo.firstName);
@@ -43,9 +50,18 @@ const Step3 = ({
       if (!response.ok) {
         throw new Error("Failed to submit data");
       }
-      handleNextStep();
+      toast({
+        title: "Success!",
+        description: "Data submitted successfully!",
+      });
+      router.push("/thank-you");
     } catch (error) {
-      console.error(error);
+      toast({
+        variant: "destructive",
+        title: "Something went wrong!",
+        description: `${error}`,
+        action: <ToastAction altText="Try Again">Try Again</ToastAction>,
+      });
     }
   };
 

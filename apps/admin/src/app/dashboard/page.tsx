@@ -35,7 +35,7 @@ const page = () => {
   };
 
   const { data: user, error } = useSWR<any>(
-    "http://locahost:1337/v1/auth/me",
+    "http://localhost:1337/v1/user/kyc",
     fetcher
   );
 
@@ -55,7 +55,7 @@ const page = () => {
           <Profile />
         </div>
         <div>
-          <Welcome name={"Krish"} />
+          <Welcome name={"krish"} />
         </div>
         <div className="grid grid-cols-3 gap-10">
           <LogSummary />

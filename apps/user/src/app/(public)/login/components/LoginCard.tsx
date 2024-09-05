@@ -36,7 +36,7 @@ const LoginCard = () => {
 
       const data = await response.json();
       const accessToken = data.access_token;
-      localStorage.setItem("user", JSON.stringify(accessToken));
+      localStorage.setItem("token", JSON.stringify(accessToken));
 
       console.log("Submitted");
     } catch (error) {
