@@ -4,13 +4,27 @@ import { useState } from "react";
 import Step1 from "../(steps)/Step1";
 import Step2 from "../(steps)/Step2";
 import Profile from "./components/Profile";
-import SideBar from "ui/SideBar";
+// import SideBar from "ui/SideBar";
 import Step3 from "../(steps)/Step3";
 
 const Page = () => {
   const [activeTab, setActive] = useState(1);
   const steps = ["Step 1", "Step 2", "Step 3"];
   const [complete, setComplete] = useState(false);
+
+  const [formData, setFormData] = useState({
+    personalInfo: {
+      firstName: "",
+      lastName: "",
+      gender: "MALE",
+      nidNumber: "",
+      address: "",
+      profileImage: null,
+      // status: "UNVERIFIED",
+    },
+    nidFrontImage: null,
+    nidBackImage: null,
+  });
 
   const handleNextStep = () => {
     if (activeTab < steps.length) {
@@ -19,11 +33,41 @@ const Page = () => {
       setComplete(true);
     }
   };
-
+  const handleBackStep = () => {
+    if (activeTab <= steps.length) {
+      setActive((prev) => prev - 1);
+    } else {
+      setComplete(true);
+    }
+  };
+  const handleFormDataChange = (newData: any) => {
+    setFormData((prev) => ({
+      ...prev,
+      ...newData,
+    }));
+  };
   const formElements = [
-    <Step1 handleNextStep={handleNextStep} />,
-    <Step2 handleNextStep={handleNextStep} />,
-    <Step3 handleNextStep={handleNextStep} />,
+    <Step1
+      handleNextStep={handleNextStep}
+      formData={formData.personalInfo}
+      setFormData={handleFormDataChange}
+    />,
+    <Step2
+      handleNextStep={handleNextStep}
+      setFormData={handleFormDataChange}
+      formData={{
+        nidFrontImage: formData.nidFrontImage,
+        nidBackImage: formData.nidBackImage,
+      }}
+      handleFormDataChange={handleFormDataChange}
+    />,
+
+    <Step3
+      handleNextStep={handleNextStep}
+      handleBackStep={handleBackStep}
+      formData={formData}
+      handleFormDataChange={handleFormDataChange}
+    />,
   ];
 
   return (

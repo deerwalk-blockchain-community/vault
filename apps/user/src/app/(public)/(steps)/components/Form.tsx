@@ -1,8 +1,26 @@
 import { Button } from "@/components/ui/button";
+import { useState, useEffect } from "react";
 import ButtonFill from "ui/buttonFill";
 import ButtonNoFill from "ui/buttonNoFill";
 
-const Form = ({ handleNextStep }: { handleNextStep: any }) => {
+const Form = ({
+  handleNextStep,
+  formData,
+  setFormData,
+  handleFrontImageChange,
+  handleBackImageChange,
+}: {
+  handleNextStep: any;
+  formData?: any;
+  setFormData?: any;
+  handleFrontImageChange: any;
+  handleBackImageChange: any;
+}) => {
+  const handleSave = () => {
+    console.log(formData);
+    handleNextStep();
+  };
+
   const countries: string[] = ["USA", "Nepal", "Japan"];
   return (
     <div className="bg-[#1a1b1d] w-[70%] mt-24 mx-auto rounded-xl">
@@ -21,7 +39,7 @@ const Form = ({ handleNextStep }: { handleNextStep: any }) => {
         <div className="w-full flex mt-12 justify-center gap-8">
           <div className="flex items-center justify-center w-2/5">
             <label
-              htmlFor="dropzone-file"
+              htmlFor="dropzone-front-file"
               className="flex flex-col items-center justify-center w-[75%] aspect-square border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-[#242424] hover:bg-[#383737]"
             >
               <div className="flex flex-col items-center justify-center pt-5 pb-6">
@@ -48,13 +66,18 @@ const Form = ({ handleNextStep }: { handleNextStep: any }) => {
                 </p>
                 <p className="text-xs text-gray-400">SVG, PNG, JPG or GIF</p>
               </div>
-              <input id="dropzone-file" type="file" className="hidden" />
+              <input
+                id="dropzone-front-file"
+                type="file"
+                className="hidden"
+                onChange={handleFrontImageChange}
+              />
             </label>
           </div>
 
           <div className="flex items-center justify-center w-2/5">
             <label
-              htmlFor="dropzone-file"
+              htmlFor="dropzone-back-file"
               className="flex flex-col items-center justify-center w-[75%] aspect-square border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-[#242424] hover:bg-[#383737]"
             >
               <div className="flex flex-col items-center justify-center pt-5 pb-6">
@@ -81,15 +104,19 @@ const Form = ({ handleNextStep }: { handleNextStep: any }) => {
                 </p>
                 <p className="text-xs text-gray-400">SVG, PNG, JPG or GIF</p>
               </div>
-              <input id="dropzone-file" type="file" className="hidden" />
+              <input
+                id="dropzone-back-file"
+                type="file"
+                className="hidden"
+                onChange={handleBackImageChange}
+              />
             </label>
           </div>
         </div>
 
-        {/* Flexbox wrapper for buttons */}
         <div className="w-full flex justify-center gap-4 mt-8 pb-6">
           <Button className="border">Back</Button>
-          <Button className="border border-yellow-500" onClick={handleNextStep}>
+          <Button className="border border-yellow-500" onClick={handleSave}>
             Save and Continue
           </Button>
         </div>
