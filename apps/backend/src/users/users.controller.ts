@@ -83,4 +83,13 @@ export class UsersController {
       userId: user.id,
     });
   }
+
+  @Version('1')
+  @Get('kyc')
+  @UseGuards(ValidateUserGuard)
+  async getSelf(
+    @User() user : UserWithOutPassword,
+  ){
+    return await this.userService.getUserById(user.id);
+  }
 }
