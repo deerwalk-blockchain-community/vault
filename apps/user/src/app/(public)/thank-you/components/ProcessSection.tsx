@@ -9,9 +9,9 @@ const ProcessSection = () => {
             <GoClock />
           </div>
           <div className="leading-10">
-              <p>Thank You</p>
-              <p>Your KYC is being processed.</p>
-              <p>Your veridadfication status will update automatically.</p>
+            <p>Thank You</p>
+            <p>Your KYC is being processed.</p>
+            <p>Your verification status will update automatically.</p>
           </div>
         </div>
       </div>

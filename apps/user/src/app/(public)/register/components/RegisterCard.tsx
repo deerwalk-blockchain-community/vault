@@ -34,7 +34,7 @@ const RegisterCard = () => {
       }
       const data = await response.json();
       const accessToken = data.access_token;
-      localStorage.setItem("user", accessToken);
+      localStorage.setItem("token", accessToken);
       console.log("Submitted");
     } catch (error) {
       console.log(error);

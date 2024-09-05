@@ -9,7 +9,7 @@ const ThankYouPage = () => {
         <SideBar />
         <div className="mt-10 w-full">
           <ProcessSection />
-          da
+
           <EditRequest />
         </div>
       </div>
