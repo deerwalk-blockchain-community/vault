@@ -24,6 +24,12 @@ import { UserWithOutPassword } from 'src/core/entities/userEntity';
 @Controller('user')
 export class UsersController {
   constructor(private readonly userService: UsersService) {}
+  @Version('1')
+  @Get('kyc')
+  @UseGuards(ValidateUserGuard)
+  async getSelf(@User() user: UserWithOutPassword) {
+    return await this.userService.getUserById(user.id);
+  }
 
   @Version('1')
   @Get('')
@@ -82,14 +88,5 @@ export class UsersController {
       page: queryParams.page,
       userId: user.id,
     });
-  }
-
-  @Version('1')
-  @Get('kyc')
-  @UseGuards(ValidateUserGuard)
-  async getSelf(
-    @User() user : UserWithOutPassword,
-  ){
-    return await this.userService.getUserById(user.id);
   }
 }
