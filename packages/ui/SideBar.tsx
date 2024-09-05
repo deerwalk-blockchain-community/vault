@@ -3,7 +3,7 @@ import { MdDashboard } from "react-icons/md";
 import { FaUser } from "react-icons/fa";
 import { IoMdNotifications } from "react-icons/io";
 import { useState } from "react";
-
+import React from "react";
 const SideBar = () => {
   const [activeItem, setActiveItem] = useState("Dashboard");
 
@@ -12,8 +12,8 @@ const SideBar = () => {
   };
 
   return (
-    <section className="h-screen w-1/5">
-      <div className="h-[95%] bg-[#1A1B1D] px-10 pt-10 border border-[#1A1B1D] rounded-lg">
+    <section className="mt-12 w-[28%]">
+      <div className="h-full bg-[#1A1B1D] px-10 pt-10 border border-[#1A1B1D] rounded-lg">
         <h1 className="text-center text-3xl font-bold text-[#fcfc03]">VAULT</h1>
 
         <div className="h-[1px] bg-[#8697C3] mt-8 mb-4"></div>

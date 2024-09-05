@@ -15,9 +15,10 @@ export class ValidateAdminGuard implements CanActivate {
 
   async canActivate(context: ExecutionContext): Promise<boolean> {
     const request = context.switchToHttp().getRequest();
-    const accessToken = await this.extractTokenFromHeader(request);
+    const requestToken = await this.extractTokenFromHeader(request);
+    const accessToken = requestToken?.split(' ')[1];
     if (!accessToken) {
-      throw new BadRequestException();
+      throw new BadRequestException({ message: 'No Access Token!' });
     }
     try {
       const object = await this.jwtService.verifyAsync(accessToken, {

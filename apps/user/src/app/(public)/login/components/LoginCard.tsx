@@ -4,7 +4,7 @@ import { ChangeEvent, FormEvent, useState } from "react";
 
 import { FormDataField } from "@/app/core/constants/formData";
 
-const RegisterCard = () => {
+const LoginCard = () => {
   const [formData, setFormData] = useState<FormDataField>({
     email: "",
     password: "",
@@ -36,7 +36,7 @@ const RegisterCard = () => {
 
       const data = await response.json();
       const accessToken = data.access_token;
-      localStorage.setItem("user", accessToken);
+      localStorage.setItem("user", JSON.stringify(accessToken));
 
       console.log("Submitted");
     } catch (error) {
@@ -72,4 +72,4 @@ const RegisterCard = () => {
   );
 };
 
-export default RegisterCard;
+export default LoginCard;

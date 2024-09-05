@@ -52,6 +52,8 @@ export class KycController {
         message: "User KYC Already Exists! Can't Post Twice!",
       });
     }
+    console.log('Address at request level is ');
+    console.log(request.address);
     const savedFiles = await this.kycService.saveMultipleFiles(files);
     const created = await this.kycService.createKYCEntry(
       request.firstName as string,

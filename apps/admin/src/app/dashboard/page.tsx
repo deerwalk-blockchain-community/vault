@@ -6,7 +6,6 @@ import { APIUserRepository } from "@/domain/repositories/UserRepository";
 import useSWR from "swr";
 import Profile from "@/components/ui/Profile";
 
-import Sidebar from "@/../../../packages/ui/src/Sidebar";
 import Link from "next/link";
 import {
   DropdownMenu,
@@ -17,9 +16,14 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import Datatable from "./components/Datatable";
+import SideBar from "@/components/ui/SideBar";
 
 const getToken = () => {
-  return localStorage.getItem("token") || "";
+  const storedToken = localStorage.getItem("token");
+  if (storedToken) {
+    const parsedToken = JSON.parse(storedToken);
+    return parsedToken;
+  }
 };
 
 const page = () => {
@@ -40,7 +44,7 @@ const page = () => {
   return (
     <div className="flex flex-row space-x-2 px-5">
       <div className="mr-5">
-        <Sidebar />
+        <SideBar />
       </div>
       <div className="flex flex-col">
         <div

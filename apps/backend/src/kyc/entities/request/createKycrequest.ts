@@ -33,19 +33,4 @@ export class CreateKycRequest {
     description: 'Address of the User',
   })
   address: string;
-
-  //   @ApiProperty()
-  //   @IsFile()
-  //   @HasMimeType('image/*')
-  //   profileImage : FileSystemStoredFile
-
-  //   @ApiProperty()
-  //   @IsFile()
-  //   @HasMimeType('image/*')
-  //   nidImageFront : FileSystemStoredFile
-
-  //   @ApiProperty()
-  //   @IsFile()
-  //   @HasMimeType('image/*')
-  //   nidImageBack : FileSystemStoredFile
 }

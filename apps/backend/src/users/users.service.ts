@@ -1,7 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { KYCStatus } from '@prisma/client';
 import { prisma } from 'src/core/db/prisma';
-import { kycStatusFromString } from 'src/kyc/utils/conversionUtil';
 
 @Injectable()
 export class UsersService {
@@ -14,7 +13,7 @@ export class UsersService {
 
     const users = await prisma.users.findMany({
       skip: offset,
-      take: limit,
+      take: Math.round(limit),
       orderBy: {
         updatedAt: descending ? 'desc' : 'asc',
       },
@@ -65,5 +64,35 @@ export class UsersService {
         reason: reason,
       },
     });
+  }
+
+  async getRejectionsWithPagination(options: {
+    page: number;
+    limit: number;
+    descending: boolean;
+    userId: string;
+  }) {
+    const offset = (options.page - 1) * options.limit;
+    const rejections = await prisma.rejections.findMany({
+      take: Math.round(options.limit),
+      skip: offset,
+      where: {
+        kyc: {
+          userId: options.userId,
+        },
+      },
+      orderBy: {
+        updatedAt: options.descending ? 'desc' : 'asc',
+      },
+      select: {
+        createdAt: true,
+        updatedAt: true,
+        kyc: true,
+        reason: true,
+        id: true,
+      },
+    });
+    console.log('The rejections are : ', rejections);
+    return rejections;
   }
 }
