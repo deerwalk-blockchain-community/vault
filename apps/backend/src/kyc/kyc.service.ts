@@ -56,22 +56,24 @@ export class KycService {
     nidImageBack: string,
     profileImage: string,
     userId: string,
-    statusStr: string
+    statusStr: string,
   ) {
+    console.log('Incoming Address is ', address);
+    console.log(address);
     const gender = await genderFromString(genderStr);
     const status = await kycStatusFromString(statusStr);
     return await prisma.kYCData.create({
       data: {
         firstName,
         lastName,
+        address,
         nidNumber,
-        gender,
+        profileImage,
         nidImageFront,
         nidImageBack,
-        profileImage,
-        address,
-        userId,
         status,
+        gender,
+        userId,
       },
     });
   }

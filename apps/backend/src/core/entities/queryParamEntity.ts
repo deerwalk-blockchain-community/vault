@@ -1,4 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
+import { Transform } from 'class-transformer';
 import { IsBoolean, IsNotEmpty, IsNumber } from 'class-validator';
 
 export class DefaultQueryParams {
@@ -6,8 +7,8 @@ export class DefaultQueryParams {
     required: true,
     description: 'Limit',
   })
-  @IsNumber()
-  @IsNotEmpty()
+  // @IsNumber()
+  // @IsNotEmpty()
   limit: number;
 
   @ApiProperty({
@@ -15,14 +16,15 @@ export class DefaultQueryParams {
     description: 'Page',
   })
   @IsNumber()
-  @IsNotEmpty()
+  // @IsNotEmpty()
   page: number;
 
   @ApiProperty({
     required: true,
     description: 'Is Descending?',
   })
-  @IsBoolean()
-  @IsNotEmpty()
+  @Transform(({ value }) => {
+    return [true, 'enabled', 'true', 1, '1'].indexOf(value) > -1;
+  })
   descending: boolean;
 }
