@@ -18,6 +18,7 @@ const fetchAuth = async (url: string, credentials: AuthCredentials): Promise<str
       }
 
       const data = await response.json();
+      console.log(data);
       return data.access_token;
   } catch (error) {
       console.error(`Error during ${url.includes("register") ? "registration" : "login"}:`, error);

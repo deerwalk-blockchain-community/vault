@@ -22,6 +22,8 @@ const Step1 = ({
   formData: any;
   setFormData?: any;
 }) => {
+  const [frontImagePreview, setFrontImagePreview] = useState("");
+
   const handleInputChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
   ) => {
@@ -32,6 +34,13 @@ const Step1 = ({
         [name]: value,
       },
     });
+  };
+
+  const handleProfileImage = (e: any) => {
+    console.log(e.target.files[0]);
+    const file = e.target.files[0];
+    formData.profileImage = file;
+    setFrontImagePreview(URL.createObjectURL(file));
   };
 
   const handleSave = () => {
@@ -74,7 +83,7 @@ const Step1 = ({
                 <div className="col-span-2">
                   <label>Gender</label>
                   <Select
-                    defaultValue="male"
+                    defaultValue="MALE"
                     name="gender"
                     value={formData.gender}
                     onValueChange={handleInputChange as any}
@@ -83,8 +92,8 @@ const Step1 = ({
                       <SelectValue placeholder="Choose Gender"></SelectValue>
                     </SelectTrigger>
                     <SelectContent className="bg-white text-black">
-                      <SelectItem value="male">Male</SelectItem>
-                      <SelectItem value="female">Female</SelectItem>
+                      <SelectItem value="MALE">Male</SelectItem>
+                      <SelectItem value="FEMALE">Female</SelectItem>
                     </SelectContent>
                   </Select>
                 </div>
@@ -138,7 +147,12 @@ const Step1 = ({
                       SVG, PNG, JPG, or GIF
                     </p>
                   </div>
-                  <input id="dropzone-file" type="file" className="hidden" />
+                  <input
+                    onChange={handleProfileImage}
+                    id="dropzone-file"
+                    type="file"
+                    className="hidden"
+                  />
                 </label>
               </div>
             </div>

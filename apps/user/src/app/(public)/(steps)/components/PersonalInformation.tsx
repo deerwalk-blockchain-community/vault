@@ -5,21 +5,30 @@ import { useEffect, useState } from "react";
 const PersonalInformation = ({
   handleNextStep,
   data,
+  handleBackStep,
 }: {
   handleNextStep: any;
+  handleBackStep: any;
   data: any;
 }) => {
+  console.log(data);
   const [frontImagePreview, setFrontImagePreview] = useState("");
   const [backImagePreview, setBackImagePreview] = useState("");
+  const [profileImagePreview, setProfileImagePreview] = useState("");
   const [isIdConfirmed, setIsIdConfirmed] = useState(false);
   const [isPrivacyPolicyAgreed, setIsPrivacyPolicyAgreed] = useState(false);
 
   useEffect(() => {
-    if (data.frontImage) {
-      setFrontImagePreview(URL.createObjectURL(data.frontImage));
+    if (data.nidFrontImage) {
+      setFrontImagePreview(URL.createObjectURL(data.nidFrontImage));
     }
-    if (data.backImage) {
-      setBackImagePreview(URL.createObjectURL(data.backImage));
+    if (data.nidBackImage) {
+      setBackImagePreview(URL.createObjectURL(data.nidBackImage));
+    }
+    if (data.personalInfo.profileImage) {
+      setProfileImagePreview(
+        URL.createObjectURL(data.personalInfo.profileImage)
+      );
     }
 
     return () => {
@@ -29,8 +38,11 @@ const PersonalInformation = ({
       if (backImagePreview) {
         URL.revokeObjectURL(backImagePreview);
       }
+      if (profileImagePreview) {
+        URL.revokeObjectURL(backImagePreview);
+      }
     };
-  }, [data.frontImage, data.backImage]);
+  }, [data.nidFrontImage, data.nidBackImage, data.personalInfo.profileImage]);
   console.log(data);
 
   const handleCheckboxChange = (checkboxType: string) => {
@@ -50,7 +62,7 @@ const PersonalInformation = ({
           <div className="w-full flex gap-6 ">
             <div className="w-full">
               <Image
-                src={"/images/handsome_man.jpg"}
+                src={profileImagePreview}
                 alt="User Image"
                 width={1000}
                 height={1000}
@@ -135,7 +147,9 @@ const PersonalInformation = ({
             </label>
           </div>
           <div className="w-full flex justify-center gap-4 mt-8 pb-6">
-            <Button className="border">Back</Button>
+            <Button className="border" onClick={handleBackStep}>
+              Back
+            </Button>
             <Button
               className="border border-yellow-500"
               onClick={handleNextStep}

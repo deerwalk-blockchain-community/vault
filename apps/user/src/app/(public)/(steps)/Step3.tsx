@@ -7,13 +7,15 @@ const Step3 = ({
   handleNextStep,
   formData,
   handleFormDataChange,
+  handleBackStep,
 }: {
   handleNextStep: any;
+  handleBackStep: any;
   formData: any;
   handleFormDataChange: any;
 }) => {
-  console.log(formData);
-  const token = localStorage.getItem("token");
+  const token = JSON.parse(localStorage.getItem("token") || "");
+  console.log(token);
   const data = new FormData();
   const handleSubmit = async () => {
     data.append("firstName", formData.personalInfo.firstName);
@@ -21,14 +23,17 @@ const Step3 = ({
     data.append("gender", formData.personalInfo.gender);
     data.append("nidNumber", formData.personalInfo.nidNumber);
     data.append("address", formData.personalInfo.address);
-    if (formData.frontImage) {
-      data.append("frontImage", formData.frontImage);
+    data.append("profileImage", formData.personalInfo.profileImage);
+    // data.append("status", formData.personalInfo.status);
+
+    if (formData.nidFrontImage) {
+      data.append("nidFrontImage", formData.nidFrontImage);
     }
-    if (formData.backImage) {
-      data.append("backImage", formData.backImage);
+    if (formData.nidBackImage) {
+      data.append("nidBackImage", formData.nidBackImage);
     }
     try {
-      const response = await fetch("http://locahost:1337/v1/kyc", {
+      const response = await fetch("http://localhost:1337/v1/kyc", {
         method: "POST",
         headers: {
           Authorization: `Bearer ${token}`,
@@ -49,7 +54,11 @@ const Step3 = ({
       <div className="w-[95%] mx-auto flex flex-row gap-8">
         <SideBar />
         <div className="mt-10 w-full">
-          <PersonalInformation handleNextStep={handleSubmit} data={formData} />
+          <PersonalInformation
+            handleBackStep={handleBackStep}
+            handleNextStep={handleSubmit}
+            data={formData}
+          />
         </div>
       </div>
     </div>

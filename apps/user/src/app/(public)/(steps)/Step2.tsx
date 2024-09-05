@@ -23,14 +23,14 @@ const Step2 = ({
     console.log(e.target.files[0]);
     const file = e.target.files[0];
     setFrontImagePreview(URL.createObjectURL(file));
-    handleFormDataChange({ frontImage: file });
+    handleFormDataChange({ nidFrontImage: file });
   };
 
   const handleBackImageChange = (e: any) => {
     console.log(e.target.files[0]);
     const file = e.target.files[0];
     setBackImagePreview(URL.createObjectURL(file));
-    handleFormDataChange({ backImage: file });
+    handleFormDataChange({ nidBackImage: file });
   };
 
   const handleSave = () => {

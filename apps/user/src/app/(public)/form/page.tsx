@@ -16,17 +16,26 @@ const Page = () => {
     personalInfo: {
       firstName: "",
       lastName: "",
-      gender: "male",
+      gender: "MALE",
       nidNumber: "",
       address: "",
+      profileImage: null,
+      // status: "UNVERIFIED",
     },
-    frontImage: null,
-    backImage: null,
+    nidFrontImage: null,
+    nidBackImage: null,
   });
 
   const handleNextStep = () => {
     if (activeTab < steps.length) {
       setActive((prev) => prev + 1);
+    } else {
+      setComplete(true);
+    }
+  };
+  const handleBackStep = () => {
+    if (activeTab <= steps.length) {
+      setActive((prev) => prev - 1);
     } else {
       setComplete(true);
     }
@@ -47,14 +56,15 @@ const Page = () => {
       handleNextStep={handleNextStep}
       setFormData={handleFormDataChange}
       formData={{
-        frontImage: formData.frontImage,
-        backImage: formData.backImage,
+        nidFrontImage: formData.nidFrontImage,
+        nidBackImage: formData.nidBackImage,
       }}
       handleFormDataChange={handleFormDataChange}
     />,
 
     <Step3
       handleNextStep={handleNextStep}
+      handleBackStep={handleBackStep}
       formData={formData}
       handleFormDataChange={handleFormDataChange}
     />,
