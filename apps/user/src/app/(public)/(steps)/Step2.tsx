@@ -5,11 +5,13 @@ import Form from "./components/Form";
 
 const Step2 = ({
   handleNextStep,
+  handleBackStep,
   formData,
   setFormData,
   handleFormDataChange,
 }: {
   handleNextStep: () => void;
+  handleBackStep: () => void;
   formData?: any;
   setFormData?: any;
   handleFormDataChange: any;
@@ -42,6 +44,7 @@ const Step2 = ({
       <div className="mt-10 w-full">
         <Form
           handleNextStep={handleNextStep}
+          handleBackStep={handleBackStep}
           handleFrontImageChange={handleFrontImageChange}
           handleBackImageChange={handleBackImageChange}
           formData={formData}

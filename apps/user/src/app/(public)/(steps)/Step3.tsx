@@ -1,3 +1,4 @@
+"use client";
 import SideBar from "@/components/ui/SideBar";
 import PersonalInformation from "./components/PersonalInformation";
 import { useRouter } from "next/navigation";
@@ -41,6 +42,7 @@ const Step3 = ({
       const response = await fetch("http://localhost:1337/v1/kyc", {
         method: "POST",
         headers: {
+          // "Content-Type": "multipart/form-data",
           Authorization: `Bearer ${token}`,
         },
         body: data,
