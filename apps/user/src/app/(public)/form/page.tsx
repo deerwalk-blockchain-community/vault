@@ -3,9 +3,8 @@
 import { useState } from "react";
 import Step1 from "../(steps)/Step1";
 import Step2 from "../(steps)/Step2";
-import Profile from "./components/Profile";
-// import SideBar from "ui/SideBar";
 import Step3 from "../(steps)/Step3";
+import Profile from "./components/Profile";
 
 const Page = () => {
   const [activeTab, setActive] = useState(1);
@@ -20,7 +19,6 @@ const Page = () => {
       nidNumber: "",
       address: "",
       profileImage: null,
-      // status: "UNVERIFIED",
     },
     nidFrontImage: null,
     nidBackImage: null,
@@ -33,19 +31,20 @@ const Page = () => {
       setComplete(true);
     }
   };
+
   const handleBackStep = () => {
-    if (activeTab <= steps.length) {
+    if (activeTab > 1) {
       setActive((prev) => prev - 1);
-    } else {
-      setComplete(true);
     }
   };
+
   const handleFormDataChange = (newData: any) => {
     setFormData((prev) => ({
       ...prev,
       ...newData,
     }));
   };
+
   const formElements = [
     <Step1
       handleNextStep={handleNextStep}
@@ -54,6 +53,7 @@ const Page = () => {
     />,
     <Step2
       handleNextStep={handleNextStep}
+      handleBackStep={handleBackStep}
       setFormData={handleFormDataChange}
       formData={{
         nidFrontImage: formData.nidFrontImage,
@@ -61,7 +61,6 @@ const Page = () => {
       }}
       handleFormDataChange={handleFormDataChange}
     />,
-
     <Step3
       handleNextStep={handleNextStep}
       handleBackStep={handleBackStep}
@@ -73,13 +72,13 @@ const Page = () => {
   return (
     <div className="flex flex-col items-center w-full">
       <div className="absolute left-1/2 transform -translate-x-1/2">
-        <div className="flex flex-row justify-between mt-5 ">
+        <div className="flex flex-row justify-between mt-5">
           {steps.map((step, i) => (
             <div
               key={i}
               className={`step-item ${activeTab === i + 1 && "active"} ${
                 (i + 1 < activeTab || complete) && "complete"
-              } `}
+              }`}
             >
               <div className="step"></div>
               <p className="text-gray-500">{step}</p>
