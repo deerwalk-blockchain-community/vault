@@ -1,7 +1,7 @@
 import { useRouter, usePathname } from "next/navigation";
 import { useEffect } from "react";
 
-const useAuthRedirect = () => {
+const useAuthRedirect = (url?: string) => {
   const router = useRouter();
   const pathname = usePathname();
 
@@ -11,7 +11,9 @@ const useAuthRedirect = () => {
     if (!isAuthenticated && !["/login", "/signup"].includes(pathname)) {
       router.replace("/login");
     } else {
-      router.push("/dashboard");
+      {
+        url ? router.push(url) : router.push("/dashboard");
+      }
     }
   }, [pathname, router]);
 };
