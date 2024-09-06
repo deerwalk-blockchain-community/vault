@@ -3,6 +3,7 @@
 import { ChangeEvent, FormEvent, useState } from "react";
 
 import { FormDataField } from "@/app/core/constants/formData";
+import { BASE_URL } from "@/lib/constants";
 
 const RegisterCard = () => {
   const [formData, setFormData] = useState<FormDataField>({
@@ -21,7 +22,7 @@ const RegisterCard = () => {
     e.preventDefault();
 
     try {
-      const response = await fetch("http://localhost:1337/v1/auth/register", {
+      const response = await fetch(`${BASE_URL}/auth/register`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

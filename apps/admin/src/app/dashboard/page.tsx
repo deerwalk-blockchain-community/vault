@@ -20,6 +20,7 @@ import { ForwardIcon } from "lucide-react";
 import { BsForward } from "react-icons/bs";
 import { FaForward, FaForwardStep } from "react-icons/fa6";
 import { FiFastForward } from "react-icons/fi";
+import { BASE_URL } from "@/lib/constants";
 
 const getToken = () => {
   const storedToken = localStorage.getItem("token");
@@ -37,13 +38,10 @@ const page = () => {
     return apiUserRepository.getUserInfo();
   };
 
-  const { data: user, error } = useSWR<any>(
-    "http://localhost:1337/v1/user/kyc",
-    fetcher
-  );
+  const { data: user, error } = useSWR<any>(`${BASE_URL}/user/kyc`, fetcher);
 
   const { data: users_info } = useSWR<any>(
-    "http://localhost:1337/v1/user?limit=10&page=0&descending=true",
+    `${BASE_URL}/user?limit=10&page=0&descending=true`,
     fetcher
   );
 
