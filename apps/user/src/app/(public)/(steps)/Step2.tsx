@@ -1,5 +1,3 @@
-// src/app/(steps)/Step2.tsx
-
 import { useState } from "react";
 import SideBar from "@/components/ui/SideBar";
 import Profile from "../form/components/Profile";

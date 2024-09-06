@@ -1,5 +1,3 @@
-// src/app/(steps)/Step3.tsx
-
 import SideBar from "@/components/ui/SideBar";
 import PersonalInformation from "./components/PersonalInformation";
 import { useRouter } from "next/navigation";

@@ -1,5 +1,3 @@
-// src/app/(steps)/Step1.tsx
-
 import { useState } from "react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";

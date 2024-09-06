@@ -69,7 +69,7 @@ const Datatable = ({
 }) => {
   const [isMounted, setIsMounted] = useState(false);
   const [displayedData, setDisplayedData] = useState(data);
-  const [selectedRecord, setSelectedRecord] = useState<any | null>(null); // State to store selected row data
+  const [selectedRecord, setSelectedRecord] = useState<any | null>(null);
 
   useLayoutEffect(() => {
     setIsMounted(true);
@@ -92,7 +92,7 @@ const Datatable = ({
   }, [limit, searchQuery, isMounted]);
 
   const handleExpandClick = (record: any) => {
-    setSelectedRecord(record); // Set the selected record data when expand icon is clicked
+    setSelectedRecord(record);
   };
 
   if (!isMounted) return null;
@@ -132,7 +132,6 @@ const Datatable = ({
         ))}
       </Table>
 
-      {/* Dialog for showing selected record */}
       {selectedRecord && (
         <Dialog
           open={!!selectedRecord}
