@@ -2,6 +2,7 @@
 import SideBar from "@/components/SideBar";
 import DashboardOverview from "./components/DashboardOverview";
 import useSWR from "swr";
+import { BASE_URL } from "@/lib/constants";
 
 const fetcher = async (url: string, token: string): Promise<any> => {
   const response = await fetch(url, {
@@ -20,7 +21,7 @@ const fetcher = async (url: string, token: string): Promise<any> => {
 const token: string | null = JSON.parse(localStorage.getItem("token") || "");
 const DashboardPage = () => {
   const { data: user = [], mutate } = useSWR(
-    token ? `http://localhost:1337/v1/user/kyc` : null,
+    token ? `${BASE_URL}/user/kyc` : null,
     (url) => fetcher(url, token || "")
   );
 

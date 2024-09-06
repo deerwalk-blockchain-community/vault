@@ -3,6 +3,7 @@
 import { ChangeEvent, FormEvent, useState } from "react";
 
 import { FormDataField } from "@/app/core/constants/formData";
+import { BASE_URL } from "@/lib/constants";
 
 const LoginCard = () => {
   const [formData, setFormData] = useState<FormDataField>({
@@ -21,7 +22,7 @@ const LoginCard = () => {
     e.preventDefault();
     console.log(formData);
     try {
-      const response = await fetch("http://localhost:1337/v1/auth/login", {
+      const response = await fetch(`${BASE_URL}/auth/login`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

@@ -3,6 +3,7 @@ import PersonalInformation from "./components/PersonalInformation";
 import { useRouter } from "next/navigation";
 import { useToast } from "@/hooks/use-toast";
 import { ToastAction } from "@/components/ui/toast";
+import { BASE_URL } from "@/lib/constants";
 
 const Step3 = ({
   handleNextStep,
@@ -17,10 +18,10 @@ const Step3 = ({
 }) => {
   const router = useRouter();
   const { toast } = useToast();
+  console.log(process.env.BASE_URL);
 
-  const token = JSON.parse(localStorage.getItem("token") || "");
+  const token = JSON.parse(JSON.stringify(localStorage.getItem("token"))) || "";
   console.log(token);
-
   const data = new FormData();
   const handleSubmit = async () => {
     data.append("firstName", formData.personalInfo.firstName);
@@ -38,9 +39,10 @@ const Step3 = ({
       data.append("nidBackImage", formData.nidBackImage);
     }
     try {
-      const response = await fetch("http://localhost:1337/v1/kyc", {
+      const response = await fetch(`${BASE_URL}/kyc`, {
         method: "POST",
         headers: {
+          // "Content-Type": "multipart/form-data",
           Authorization: `Bearer ${token}`,
         },
         body: data,

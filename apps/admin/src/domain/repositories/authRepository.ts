@@ -1,3 +1,5 @@
+import { BASE_URL } from "@/lib/constants";
+
 type AuthCredentials = {
   email: string;
   password: string;
@@ -28,10 +30,10 @@ const fetchAuth = async (url: string, credentials: AuthCredentials): Promise<str
 
 export const AuthRepository = {
   async register(credentials: AuthCredentials): Promise<string> {
-      return fetchAuth("http://localhost:1337/v1/auth/register", credentials);
+      return fetchAuth(`${BASE_URL}/auth/register`, credentials);
   },
 
   async login(credentials: AuthCredentials): Promise<string> {
-      return fetchAuth("http://localhost:1337/v1/auth/login", credentials);
+      return fetchAuth(`${BASE_URL}/auth/login`, credentials);
   }
 };

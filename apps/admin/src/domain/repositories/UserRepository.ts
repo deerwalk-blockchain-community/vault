@@ -1,3 +1,4 @@
+import { BASE_URL } from "@/lib/constants";
 import { User } from "../entities/User";
 interface APIUserRepositoryProps{
     token:string,
@@ -10,7 +11,7 @@ export class APIUserRepository{
         this.token = token;
     }
     async getUserInfo():Promise<User>{
-        const res = await fetch("http://localhost:1337/v1/user/kyc", {
+        const res = await fetch(`${BASE_URL}/user/kyc`, {
             headers:{
                 'Authorization': `Bearer ${this.token}`
             }

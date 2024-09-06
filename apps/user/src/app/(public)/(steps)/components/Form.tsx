@@ -5,12 +5,14 @@ import ButtonNoFill from "ui/buttonNoFill";
 
 const Form = ({
   handleNextStep,
+  handleBackStep,
   formData,
   setFormData,
   handleFrontImageChange,
   handleBackImageChange,
 }: {
   handleNextStep: any;
+  handleBackStep: any;
   formData?: any;
   setFormData?: any;
   handleFrontImageChange: any;
@@ -115,7 +117,9 @@ const Form = ({
         </div>
 
         <div className="w-full flex justify-center gap-4 mt-8 pb-6">
-          <Button className="border">Back</Button>
+          <Button className="border" onClick={handleBackStep}>
+            Back
+          </Button>
           <Button className="border border-yellow-500" onClick={handleSave}>
             Save and Continue
           </Button>
