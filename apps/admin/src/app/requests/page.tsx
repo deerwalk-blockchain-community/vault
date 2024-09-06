@@ -3,10 +3,12 @@ import React, { useState } from "react";
 import Profile from "@/components/ui/Profile";
 import { RefreshCwIcon, Search, SlidersHorizontalIcon } from "lucide-react";
 import { Input } from "@/components/ui/input";
-import Datatable from "../dashboard/components/Datatable";
+import Datatable from "../../components/Datatable";
 import SideBar from "@/components/ui/SideBar";
+import useAuthRedirect from "@/hooks/useAuthRedirect";
 
 const Page = () => {
+  useAuthRedirect("/requests");
   const [searchQuery, setSearchQuery] = useState("");
 
   return (
@@ -39,12 +41,12 @@ const Page = () => {
                 <RefreshCwIcon />
               </span>
             </p>
-            <p className="flex flex-row">
+            {/* <p className="flex flex-row">
               Filter{" "}
               <span className="ml-2">
                 <SlidersHorizontalIcon />
               </span>
-            </p>
+            </p> */}
           </div>
         </div>
         <div className="mt-5 w-[99%]">

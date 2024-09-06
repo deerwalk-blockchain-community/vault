@@ -5,7 +5,6 @@ import useAuthRedirect from "@/hooks/useAuthRedirect";
 import { APIUserRepository } from "@/domain/repositories/UserRepository";
 import useSWR from "swr";
 import Profile from "@/components/ui/Profile";
-
 import Link from "next/link";
 import {
   DropdownMenu,
@@ -15,8 +14,12 @@ import {
   DropdownMenuShortcut,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import Datatable from "./components/Datatable";
+import Datatable from "../../components/Datatable";
 import SideBar from "@/components/ui/SideBar";
+import { ForwardIcon } from "lucide-react";
+import { BsForward } from "react-icons/bs";
+import { FaForward, FaForwardStep } from "react-icons/fa6";
+import { FiFastForward } from "react-icons/fi";
 
 const getToken = () => {
   const storedToken = localStorage.getItem("token");
@@ -27,7 +30,7 @@ const getToken = () => {
 };
 
 const page = () => {
-  useAuthRedirect();
+  useAuthRedirect("/dashboard");
   const token = getToken();
   const apiUserRepository = new APIUserRepository({ token });
   const fetcher = async (url: string) => {
@@ -39,7 +42,12 @@ const page = () => {
     fetcher
   );
 
-  console.log(user);
+  const { data: users_info } = useSWR<any>(
+    "http://localhost:1337/v1/user?limit=10&page=0&descending=true",
+    fetcher
+  );
+
+  console.log(users_info);
 
   return (
     <div className="flex flex-row space-x-2 px-5">
@@ -55,13 +63,22 @@ const page = () => {
           <Profile />
         </div>
         <div>
-          <Welcome name={"krish"} />
+          <Welcome name={"Admin"} />
         </div>
         <div className="grid grid-cols-3 gap-10">
           <LogSummary />
           <OverallSummary />
           <Overview />
           <div className="col-span-3">
+            <p className="flex flex-row gap-2 justify-end">
+              <Link
+                href={"/requests"}
+                className="flex flex-row items-center gap-2"
+              >
+                See All
+                <FiFastForward />
+              </Link>
+            </p>
             <Datatable limit={3} />
           </div>
         </div>
