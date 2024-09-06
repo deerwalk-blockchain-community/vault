@@ -1,5 +1,3 @@
-// src/app/(steps)/Step3.tsx
-"use client";
 import SideBar from "@/components/ui/SideBar";
 import PersonalInformation from "./components/PersonalInformation";
 import { useRouter } from "next/navigation";
@@ -20,9 +18,8 @@ const Step3 = ({
   const router = useRouter();
   const { toast } = useToast();
 
-  const token = JSON.parse(localStorage.getItem("token") || "");
+  const token = JSON.parse(JSON.stringify(localStorage.getItem("token"))) || "";
   console.log(token);
-
   const data = new FormData();
   const handleSubmit = async () => {
     data.append("firstName", formData.personalInfo.firstName);
