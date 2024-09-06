@@ -18,12 +18,9 @@ import {
   ChartTooltipContent,
 } from "@/components/ui/chart";
 const chartData = [
-  { month: "January", approved: 186, rejected: 80 },
-  { month: "February", approved: 305, rejected: 200 },
-  { month: "March", approved: 237, rejected: 120 },
-  { month: "April", approved: 73, rejected: 190 },
-  { month: "May", approved: 209, rejected: 130 },
-  { month: "June", approved: 214, rejected: 140 },
+  { day: "Sun", approved: 186, rejected: 80 },
+  { day: "Mon", approved: 305, rejected: 200 },
+  { day: "Tue", approved: 237, rejected: 120 },
 ];
 
 const chartConfig = {
@@ -42,7 +39,7 @@ export default function Component() {
     <Card className="bg-[#1A1B1D] border-none text-white">
       <CardHeader className="flex flex-row justify-between">
         <CardTitle>Overview</CardTitle>
-        <p className="font-thin text-xs ">Data updates every hour </p>
+        <p className="font-thin text-xs ">Data updates every day </p>
       </CardHeader>
       <CardContent className="flex flex-col">
         <ChartContainer className="max-h-48" config={chartConfig}>
@@ -56,7 +53,7 @@ export default function Component() {
           >
             <CartesianGrid vertical={false} />
             <XAxis
-              dataKey="month"
+              dataKey="day"
               tickLine={false}
               axisLine={false}
               tickMargin={8}

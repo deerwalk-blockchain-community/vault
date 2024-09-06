@@ -18,7 +18,9 @@ const fetcher = async (url: string, token: string): Promise<any> => {
   return response.json();
 };
 
-const token: string | null = JSON.parse(localStorage.getItem("token") || "");
+const token: string | null = JSON.parse(
+  JSON.stringify(localStorage.getItem("token") || "")
+);
 const DashboardPage = () => {
   const { data: user = [], mutate } = useSWR(
     token ? `${BASE_URL}/user/kyc` : null,

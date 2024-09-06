@@ -16,6 +16,10 @@ import { Button } from "./ui/button";
 import { Popover } from "./ui/popover";
 import { PopoverContent, PopoverTrigger } from "@radix-ui/react-popover";
 import { Input } from "./ui/input";
+import useSWR from "swr";
+import { BASE_URL } from "@/lib/constants";
+import { toast } from "./ui/use-toast";
+import { ToastAction } from "./ui/toast";
 
 const data = [
   {
@@ -60,6 +64,20 @@ const data = [
   },
 ];
 
+const fetcher = async (url: string, token: string): Promise<any> => {
+  const response = await fetch(url, {
+    method: "GET",
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+
+  if (!response.ok) {
+    throw new Error("Failed to fetch data");
+  }
+  return response.json();
+};
+
 const Datatable = ({
   limit,
   searchQuery = "",
@@ -70,6 +88,12 @@ const Datatable = ({
   const [isMounted, setIsMounted] = useState(false);
   const [displayedData, setDisplayedData] = useState(data);
   const [selectedRecord, setSelectedRecord] = useState<any | null>(null);
+  const [verdict, setVerdict] = useState<string>("");
+  const token = JSON.parse(JSON.stringify(localStorage.getItem("token") || ""));
+  // const { data: user_data, error } = useSWR<any>(
+  //   `${BASE_URL}/user/${userID}`,
+  //   (url: string) => fetcher(url, token || "")
+  // );
 
   useLayoutEffect(() => {
     setIsMounted(true);
@@ -79,7 +103,7 @@ const Datatable = ({
     let filteredData = data;
 
     if (searchQuery) {
-      filteredData = filteredData.filter((item) =>
+      filteredData = filteredData.filter((item: any) =>
         item.Name.toLowerCase().includes(searchQuery.toLowerCase())
       );
     }
@@ -94,6 +118,57 @@ const Datatable = ({
   const handleExpandClick = (record: any) => {
     setSelectedRecord(record);
   };
+
+  const handleVerdictChange = (e: any) => {
+    setVerdict(e.target.value);
+  };
+
+  // TODO:REJECT AND ACCEPT
+  // const handleReject = async () => {
+  //   try {
+  //     const response = await fetch(`${BASE_URL}/user/${userID}/kyc`, {
+  //       method: "POST",
+  //       headers: {
+  //         Authorization: `Bearer ${token}`,
+  //       },
+  //       body: verdict,
+  //     });
+  //     toast({
+  //       title: "User Accepted successfully",
+  //     });
+  //   } catch (error) {
+  //     toast({
+  //       variant: "destructive",
+  //       title: "Something went wrong!",
+  //       description: `${error}`,
+  //       action: <ToastAction altText="Try Again">Try Again</ToastAction>,
+  //     });
+  //   }
+  // };
+
+  // const handleAccept = async () => {
+  //   try {
+  //     const response = await fetch(`${BASE_URL}/user/${userID}/kyc`, {
+  //       method: "POST",
+  //       headers: {
+  //         Authorization: `Bearer ${token}`,
+  //       },
+  //       // TODO:Add body
+  //       // body:
+  //     });
+  //     toast({
+  //       title: "User Accepted successfully",
+  //
+  //     });
+  //   } catch (error) {
+  //     toast({
+  //       variant: "destructive",
+  //       title: "Something went wrong!",
+  //       description: `${error}`,
+  //       action: <ToastAction altText="Try Again">Try Again</ToastAction>,
+  //     });
+  //   }
+  // };
 
   if (!isMounted) return null;
 
@@ -110,7 +185,7 @@ const Datatable = ({
           <TableHead>Time</TableHead>
           <TableHead></TableHead>
         </TableRow>
-        {displayedData.map((cell) => (
+        {displayedData.map((cell: any) => (
           <TableBody key={cell.Id}>
             <TableRow>
               <TableCell>{cell.Id}</TableCell>
@@ -167,14 +242,30 @@ const Datatable = ({
                   </PopoverTrigger>
                   <PopoverContent className="bg-gray-300 mt-2 p-5">
                     <div className="flex flex-col items-center gap-2">
-                      <Input type="text" placeholder="reason" />
-                      <Button type="submit" className="bg-black">
+                      <Input
+                        type="text"
+                        placeholder="reason"
+                        name="verdict"
+                        onChange={handleVerdictChange}
+                      />
+                      <Button
+                        type="submit"
+                        // onClick={handleReject}
+                        className="bg-black"
+                      >
                         Submit
                       </Button>
                     </div>
                   </PopoverContent>
                 </Popover>
-                <Button className="bg-green-500">Accept</Button>
+
+                <Button
+                  type="submit"
+                  className="bg-green-500"
+                  // onClick={handlAccept}
+                >
+                  Accept
+                </Button>
               </div>
             </div>
           </DialogContent>

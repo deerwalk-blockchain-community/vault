@@ -66,6 +66,7 @@ const page = () => {
         <div className="grid grid-cols-3 gap-10">
           <LogSummary />
           <OverallSummary />
+          {/* TODO:Add chart data */}
           <Overview />
           <div className="col-span-3">
             <p className="flex flex-row gap-2 justify-end">
