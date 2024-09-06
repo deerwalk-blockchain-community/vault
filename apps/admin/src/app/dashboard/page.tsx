@@ -30,6 +30,20 @@ const getToken = () => {
   }
 };
 
+const userFetcher = async (url: string, token: string): Promise<any> => {
+  const response = await fetch(url, {
+    method: "GET",
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+
+  if (!response.ok) {
+    throw new Error("Failed to fetch data");
+  }
+  return response.json();
+};
+
 const page = () => {
   useAuthRedirect("/dashboard");
   const token = getToken();
@@ -41,12 +55,11 @@ const page = () => {
   const { data: user, error } = useSWR<any>(`${BASE_URL}/user/kyc`, fetcher);
 
   const { data: users_info } = useSWR<any>(
-    `${BASE_URL}/user?limit=10&page=0&descending=true`,
-    fetcher
+    `${BASE_URL}/user?limit=10&page=1&descending=true`,
+    (url: string) => userFetcher(url, token || "")
   );
 
   console.log(users_info);
-
   return (
     <div className="flex flex-row space-x-2 px-5">
       <div className="mr-5">
@@ -78,7 +91,7 @@ const page = () => {
                 <FiFastForward />
               </Link>
             </p>
-            <Datatable limit={3} />
+            <Datatable data={users_info} limit={3} />
           </div>
         </div>
       </div>

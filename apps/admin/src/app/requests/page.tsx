@@ -6,11 +6,32 @@ import { Input } from "@/components/ui/input";
 import Datatable from "../../components/Datatable";
 import SideBar from "@/components/ui/SideBar";
 import useAuthRedirect from "@/hooks/useAuthRedirect";
+import useSWR from "swr";
+import { BASE_URL } from "@/lib/constants";
+
+const fetcher = async (url: string, token: string): Promise<any> => {
+  const response = await fetch(url, {
+    method: "GET",
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+
+  if (!response.ok) {
+    throw new Error("Failed to fetch data");
+  }
+  return response.json();
+};
 
 const Page = () => {
   useAuthRedirect("/requests");
   const [searchQuery, setSearchQuery] = useState("");
-
+  const token = JSON.parse(localStorage.getItem("token") || "");
+  const { data: users_info, error } = useSWR<any>(
+    `${BASE_URL}/user?limit=10&page=1&descending=true`,
+    (url: string) => fetcher(url, token || "")
+  );
+  console.log(users_info);
   return (
     <div className="flex flex-row">
       <SideBar />
@@ -50,7 +71,7 @@ const Page = () => {
           </div>
         </div>
         <div className="mt-5 w-[99%]">
-          <Datatable searchQuery={searchQuery} />
+          <Datatable data={users_info} searchQuery={searchQuery} />
         </div>
       </div>
     </div>
