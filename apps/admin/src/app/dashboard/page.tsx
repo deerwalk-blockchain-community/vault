@@ -85,15 +85,14 @@ const Page = () => {
 
           <Overview />
           <div className="col-span-3">
-            <p className="flex flex-row gap-2 justify-end">
-              <Link
-                href={"/requests"}
-                className="flex flex-row items-center gap-2"
-              >
-                See All
-                <FiFastForward />
-              </Link>
-            </p>
+            <Link
+              href={"/requests"}
+              className="flex flex-row items-center gap-2"
+            >
+              See All
+              <FiFastForward />
+            </Link>
+
             <Datatable limit={3} />
           </div>
         </div>
