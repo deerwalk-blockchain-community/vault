@@ -45,7 +45,7 @@ export default function Component() {
       </CardHeader>
       <CardContent className="flex flex-col">
         <ChartContainer
-          className=" w-32 md:w-48 lg:max-h-48"
+          className=" w-32  md:w-72 md:max-w-72 lg:max-h-48"
           config={chartConfig}
         >
           <LineChart
