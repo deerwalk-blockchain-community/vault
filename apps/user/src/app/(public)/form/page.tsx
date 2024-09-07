@@ -5,8 +5,10 @@ import Step1 from "../(steps)/Step1";
 import Step2 from "../(steps)/Step2";
 import Step3 from "../(steps)/Step3";
 import Profile from "./components/Profile";
+import useAuthRedirect from "@/hooks/useAuthRedirect";
 
 const Page = () => {
+  useAuthRedirect();
   const [activeTab, setActive] = useState(1);
   const steps = ["Step 1", "Step 2", "Step 3"];
   const [complete, setComplete] = useState(false);
