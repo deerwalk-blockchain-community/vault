@@ -7,7 +7,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "deploy": "next build && cp -r .next/static .next/standalone/.next/ && cp -r public .next/standalone/"
+    "deploy": "next build"
   },
   "dependencies": {
     "@radix-ui/react-dropdown-menu": "^2.1.1",
