@@ -115,6 +115,7 @@ const Datatable = ({
       toast({
         title: "User Rejected successfully",
       });
+      location.reload();
     } catch (error) {
       toast({
         variant: "destructive",
@@ -170,15 +171,15 @@ const Datatable = ({
         {displayedData?.map((cell: any, index: number) => (
           <TableBody key={index}>
             <TableRow>
-              <TableCell>{cell.kyc.id}</TableCell>
+              <TableCell>{cell?.kyc?.id}</TableCell>
               <TableCell>
-                {cell.kyc.firstName + " " + cell.kyc.lastName}
+                {cell?.kyc?.firstName + " " + cell?.kyc?.lastName}
               </TableCell>
-              <TableCell>{cell.kyc.address}</TableCell>
+              <TableCell>{cell?.kyc?.address}</TableCell>
               <TableCell>
-                {new Date(cell.kyc.createdAt).toLocaleDateString()}
+                {new Date(cell?.kyc?.createdAt).toLocaleDateString()}
               </TableCell>
-              <TableCell>{cell.kyc.status}</TableCell>
+              <TableCell>{cell?.kyc?.status}</TableCell>
               {!limit ? (
                 <TableCell
                   className="hover:cursor-pointer"

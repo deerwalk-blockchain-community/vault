@@ -26,9 +26,10 @@ const fetcher = async (url: string, token: string): Promise<any> => {
   return response.json();
 };
 
-const token: string | null = JSON.parse(
-  JSON.stringify(localStorage.getItem("token") || "")
-);
+const token: string | null =
+  typeof window !== "undefined"
+    ? JSON.parse(JSON.stringify(localStorage.getItem("token") || ""))
+    : null;
 
 const Profile = () => {
   const router = useRouter();
@@ -50,7 +51,10 @@ const Profile = () => {
   const lastName = kycData?.kyc?.lastName || "";
 
   const handleLogout = () => {
-    localStorage.removeItem("token");
+    if (typeof window !== "undefined") {
+      localStorage.removeItem("token");
+    }
+
     router.push("/login");
   };
 

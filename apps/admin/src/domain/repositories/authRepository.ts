@@ -30,10 +30,12 @@ const fetchAuth = async (url: string, credentials: AuthCredentials): Promise<str
 
 export const AuthRepository = {
   async register(credentials: AuthCredentials): Promise<string> {
+    console.log(`The Base URL is ${BASE_URL}`)
       return fetchAuth(`${BASE_URL}/auth/register`, credentials);
   },
 
   async login(credentials: AuthCredentials): Promise<string> {
+        console.log(`The Base URL is ${BASE_URL}`)
       return fetchAuth(`${BASE_URL}/auth/login`, credentials);
   }
 };

@@ -1,9 +1,11 @@
-import SideBar from "@/components/ui/SideBar";
+"use client";
+import SideBar from "@/components/SideBar";
 import PersonalInformation from "./components/PersonalInformation";
 import { useRouter } from "next/navigation";
 import { useToast } from "@/hooks/use-toast";
 import { ToastAction } from "@/components/ui/toast";
 import { BASE_URL } from "@/lib/constants";
+import { useEffect, useState } from "react";
 
 const Step3 = ({
   handleNextStep,
@@ -20,7 +22,10 @@ const Step3 = ({
   const { toast } = useToast();
   console.log(process.env.BASE_URL);
 
-  const token = JSON.parse(JSON.stringify(localStorage.getItem("token"))) || "";
+  const token =
+    typeof window !== "undefined"
+      ? JSON.parse(JSON.stringify(localStorage.getItem("token"))) || ""
+      : null;
   console.log(token);
   const data = new FormData();
   const handleSubmit = async () => {

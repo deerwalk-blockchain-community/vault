@@ -1,3 +1,4 @@
+"use client";
 import Image from "next/image";
 import {
   DropdownMenu,
@@ -25,12 +26,18 @@ const fetcher = async (url: string, token: string): Promise<any> => {
   return response.json();
 };
 
-const token: string | null = JSON.parse(
-  JSON.stringify(localStorage.getItem("token") || "")
-);
-
 const Profile = () => {
   const router = useRouter();
+  const [token, setToken] = useState<string>("");
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const storedToken = localStorage.getItem("token");
+      if (storedToken) {
+        const parsedToken = JSON.parse(storedToken);
+        setToken(parsedToken);
+      }
+    }
+  }, []);
   const { data: authData, error: authError } = useSWR(
     token ? `${BASE_URL}/auth/me` : null,
     (url) => fetcher(url, token || "")

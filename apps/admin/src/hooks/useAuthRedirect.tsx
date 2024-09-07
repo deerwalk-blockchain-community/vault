@@ -1,3 +1,4 @@
+import { UnfoldVertical } from "lucide-react";
 import { useRouter, usePathname } from "next/navigation";
 import { useEffect } from "react";
 
@@ -6,15 +7,17 @@ const useAuthRedirect = (url?: string) => {
   const pathname = usePathname();
 
   useEffect(() => {
-    const isAuthenticated = localStorage.getItem("token");
-    if (!isAuthenticated && !["/login", "/register"].includes(pathname)) {
-      router.replace("/login");
-    } else {
-      {
-        url ? router.push(url) : router.push("/dashboard");
+    if (window !== undefined) {
+      const isAuthenticated = window.localStorage.getItem("token");
+      if (!isAuthenticated && !["/login", "/register"].includes(pathname)) {
+        router.replace("/login");
+      } else {
+        {
+          url ? router.push(url) : router.push("/dashboard");
+        }
       }
     }
-  }, [pathname, router]);
+  }, [pathname, router, url]);
 };
 
 export default useAuthRedirect;

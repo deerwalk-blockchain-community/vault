@@ -21,14 +21,7 @@ import { BsForward } from "react-icons/bs";
 import { FaForward, FaForwardStep } from "react-icons/fa6";
 import { FiFastForward } from "react-icons/fi";
 import { BASE_URL } from "@/lib/constants";
-
-const getToken = () => {
-  const storedToken = localStorage.getItem("token");
-  if (storedToken) {
-    const parsedToken = JSON.parse(storedToken);
-    return parsedToken;
-  }
-};
+import { useEffect, useState } from "react";
 
 const userFetcher = async (url: string, token: string): Promise<any> => {
   const response = await fetch(url, {
@@ -44,10 +37,20 @@ const userFetcher = async (url: string, token: string): Promise<any> => {
   return response.json();
 };
 
-const page = () => {
+const Page = () => {
+  const [token, setToken] = useState<string | null>(null);
   useAuthRedirect("/dashboard");
-  const token = getToken();
-  const apiUserRepository = new APIUserRepository({ token });
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const storedToken = localStorage.getItem("token");
+      if (storedToken) {
+        const parsedToken = JSON.parse(storedToken);
+        setToken(parsedToken);
+      }
+    }
+  }, []);
+
+  const apiUserRepository = new APIUserRepository({ token: token || "" });
   const fetcher = async (url: string) => {
     return apiUserRepository.getUserInfo();
   };
@@ -79,7 +82,7 @@ const page = () => {
         <div className="grid grid-cols-3 gap-10">
           <LogSummary />
           <OverallSummary />
-          {/* TODO:Add chart data */}
+
           <Overview />
           <div className="col-span-3">
             <p className="flex flex-row gap-2 justify-end">
@@ -99,4 +102,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default Page;

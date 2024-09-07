@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import SideBar from "@/components/ui/SideBar";
+import SideBar from "@/components/SideBar";
 import Profile from "../form/components/Profile";
 import Form from "./components/Form";
 import { BASE_URL } from "@/lib/constants";
@@ -62,7 +62,7 @@ const Step2 = ({
     handleNextStep();
   };
   return (
-    <div className="flex flex-row w-full">
+    <div className="flex flex-row">
       <SideBar />
       <Profile />
       <div className="mt-10 w-full">

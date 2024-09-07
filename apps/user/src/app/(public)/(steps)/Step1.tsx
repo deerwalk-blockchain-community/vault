@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import SideBar from "@/components/ui/SideBar";
+import SideBar from "@/components/SideBar";
 import Profile from "../form/components/Profile";
 import {
   Select,
@@ -49,6 +49,13 @@ const Step1 = ({
     });
   };
 
+  const handleSelectChange = (value: string) => {
+    setFormData({
+      ...formData,
+      gender: value,
+    });
+  };
+
   const handleProfileImage = (e: any) => {
     console.log(e.target.files[0]);
     const file = e.target.files[0];
@@ -67,8 +74,8 @@ const Step1 = ({
     <div className="flex flex-row">
       <SideBar />
       <Profile />
-      <div className="mt-10">
-        <div className="bg-[#1a1b1d] w-[85%] mt-48 h-[75%] mx-auto rounded-xl">
+      <div className="w-full">
+        <div className="bg-[#1a1b1d] w-[85%] mt-40 mx-auto rounded-xl">
           <h1 className="text-center text-2xl font-semibold pt-8 ">
             Upload Your Personal Information
           </h1>
@@ -91,7 +98,7 @@ const Step1 = ({
                     name="lastName"
                     type="text"
                     className="text-black"
-                    value={formData.lastName}
+                    // value={formData?.lastName}
                     onChange={handleInputChange}
                   />
                 </div>
@@ -101,7 +108,7 @@ const Step1 = ({
                     defaultValue="MALE"
                     name="gender"
                     value={formData.gender}
-                    onValueChange={handleInputChange as any}
+                    onValueChange={(value) => handleSelectChange(value)}
                   >
                     <SelectTrigger className="w-[180px]">
                       <SelectValue placeholder="Choose Gender"></SelectValue>

@@ -30,7 +30,7 @@ const Form = ({
 
   const countries: string[] = ["USA", "Nepal", "Japan"];
   return (
-    <div className="bg-[#1a1b1d] w-[70%] mt-24 mx-auto rounded-xl">
+    <div className="bg-[#1a1b1d] w-[85%] mt-24 mx-auto rounded-xl">
       <h1 className="text-center text-2xl font-semibold pt-8">
         Upload Proof of Your Identity
       </h1>
