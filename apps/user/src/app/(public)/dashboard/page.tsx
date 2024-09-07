@@ -19,9 +19,10 @@ const fetcher = async (url: string, token: string): Promise<any> => {
   return response.json();
 };
 
-const token: string | null = JSON.parse(
-  JSON.stringify(localStorage.getItem("token") || "")
-);
+const token: string | null =
+  typeof window !== "undefined"
+    ? JSON.parse(JSON.stringify(localStorage.getItem("token") || ""))
+    : null;
 const DashboardPage = () => {
   const router = useRouter();
   let rejectId;
@@ -30,16 +31,16 @@ const DashboardPage = () => {
     (url) => fetcher(url, token || "")
   );
 
-  const handleReason = (user_id: string) => {
-    const { data: rejection = [] } = useSWR(
-      token
-        ? `${BASE_URL}/user/${user_id}/rejections?limit=2&page=1&descending=true`
-        : null,
-      (url) => fetcher(url, token || "")
-    );
+  const { data: rejection = [], mutate: mutateRejection } = useSWR(
+    token ? `${BASE_URL}/user/rejections?limit=2&page=1&descending=true` : null,
+    (url) => fetcher(url, token || "")
+  );
 
-    let user = rejection?.find((item: any) => item.kyc?.userId == user_id);
-    return user?.reason;
+  const handleReason = (user_id: string) => {
+    let rejectedUser = rejection?.find(
+      (item: any) => item.kyc?.userId === user_id
+    );
+    return rejectedUser?.reason || "No reason available";
   };
 
   const handleReapply = (user_id: string) => {
