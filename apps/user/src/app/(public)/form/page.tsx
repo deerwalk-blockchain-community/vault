@@ -121,7 +121,8 @@ const Page = () => {
 
   return (
     <div className="flex flex-col items-center w-full">
-      <div className="absolute left-1/2 transform -translate-x-1/2">
+      <div className="absolute left-1/2 transform -translate-x-1/2 pb-4 pt-1 rounded-b-xl bg-[#1a1b1d]">
+        <h2 className="text-center">KYC Verification</h2>
         <div className="flex flex-row justify-between mt-5">
           {steps.map((step, i) => (
             <div

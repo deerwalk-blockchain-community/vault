@@ -53,7 +53,7 @@ const DashboardPage = () => {
 
   return (
     <section className="w-full">
-      <div className="w-[95%] mx-auto gap-8 flex flex-row">
+      <div className="w-[95%] relative mx-auto gap-8 flex flex-row">
         <SideBar />
         <Profile />
         <div className="mt-10 w-full">
