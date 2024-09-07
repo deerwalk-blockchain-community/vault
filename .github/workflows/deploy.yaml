@@ -14,25 +14,34 @@ jobs:
       - name: Checkout the repository
         uses: actions/checkout@v2
 
+      - name: Install pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          run_install: false
+
       - name: Set up Node.js
         uses: actions/setup-node@v4
         with:
           node-version: "20"
+          cache: 'pnpm'
+
 
       - name: Install Dependencies
-        working-directory: frontend
+        # working-directory: frontend
         run: |
-          npm install
+          pnpm install
 
       - name: Build Frontend
-        working-directory: frontend
+        # working-directory: frontend
         run: |
-          npm run deploy
+          NEXT_PUBLIC_API_URL="http://54.197.24.140/api/v1" npx turbo build --filter=./apps/admin
+          npx turbo build --filter=./apps/backend
+          NEXT_PUBLIC_API_URL="http://54.197.24.140/api/v1" npx turbo build --filter=./apps/user
 
       - name: Transfer Admin files to Remote Server
         uses: easingthemes/ssh-deploy@main
         with:
-          SOURCE: apps/admin/dest
+          SOURCE: apps/admin/dest/
           SSH_PRIVATE_KEY: ${{ secrets.EC2_SSH_KEY }}
           REMOTE_HOST: ${{ secrets.IP_ADDR }}
           REMOTE_USER: ${{ secrets.USERNAME }}
@@ -43,7 +52,7 @@ jobs:
       - name: Transfer User files to Remote Server
         uses: easingthemes/ssh-deploy@main
         with:
-          SOURCE: apps/user/dest
+          SOURCE: apps/user/dest/
           SSH_PRIVATE_KEY: ${{ secrets.EC2_SSH_KEY }}
           REMOTE_HOST: ${{ secrets.IP_ADDR }}
           REMOTE_USER: ${{ secrets.USERNAME }}
@@ -54,11 +63,11 @@ jobs:
       - name: Transfer Backend files to Remote Server
         uses: easingthemes/ssh-deploy@main
         with:
-          SOURCE: apps/backend/dist
+          SOURCE: apps/backend/
           SSH_PRIVATE_KEY: ${{ secrets.EC2_SSH_KEY }}
           REMOTE_HOST: ${{ secrets.IP_ADDR }}
           REMOTE_USER: ${{ secrets.USERNAME }}
-          # EXCLUDE: "/node_modules/"
+          EXCLUDE: "/node_modules/"
           TARGET: /home/ubuntu/deployment/backend/
 
 
@@ -69,4 +78,6 @@ jobs:
           username: ${{ secrets.USERNAME }}
           key: ${{ secrets.EC2_SSH_KEY }}
           script: |
+            pwd
+            ./deployment/deploy_backend.sh
             PRODUCTION=1 pm2 reload all --update-env
