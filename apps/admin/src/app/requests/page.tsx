@@ -69,12 +69,6 @@ const Page = () => {
                 <RefreshCwIcon />
               </span>
             </p>
-            {/* <p className="flex flex-row">
-              Filter{" "}
-              <span className="ml-2">
-                <SlidersHorizontalIcon />
-              </span>
-            </p> */}
           </div>
         </div>
         <div className="mt-5 w-[99%]" suppressHydrationWarning>
