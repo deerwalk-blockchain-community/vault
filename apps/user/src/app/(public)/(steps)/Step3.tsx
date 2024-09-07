@@ -6,6 +6,7 @@ import { useToast } from "@/hooks/use-toast";
 import { ToastAction } from "@/components/ui/toast";
 import { BASE_URL } from "@/lib/constants";
 import { useEffect, useState } from "react";
+import Profile from "../form/components/Profile";
 
 const Step3 = ({
   handleNextStep,
@@ -72,8 +73,9 @@ const Step3 = ({
 
   return (
     <div className="w-full">
-      <div className="w-[95%] mx-auto flex flex-row gap-8">
+      <div className="w-[95%] mx-auto flex flex-row gap-8 relative">
         <SideBar />
+        <Profile />
         <div className="mt-10 w-full">
           <PersonalInformation
             handleBackStep={handleBackStep}
