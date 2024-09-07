@@ -39,16 +39,13 @@ const DashboardPage = () => {
     );
 
     let user = rejection?.find((item: any) => item.kyc?.userId == user_id);
-    console.log(user);
-
     return user?.reason;
   };
 
   const handleReapply = (user_id: string) => {
     rejectId = user_id;
-    router.push("/form");
+    router.push(`/form?ref=${encodeURIComponent(user_id)}`);
   };
-  console.log(user);
 
   return (
     <section className="w-full">
