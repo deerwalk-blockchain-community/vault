@@ -34,9 +34,9 @@ jobs:
       - name: Build Frontend
         # working-directory: frontend
         run: |
-          npx turbo build --filter=./apps/admin
+          NEXT_PUBLIC_API_URL="http://54.197.24.140/api/v1" npx turbo build --filter=./apps/admin
           npx turbo build --filter=./apps/backend
-          npx turbo build --filter=./apps/user
+          NEXT_PUBLIC_API_URL="http://54.197.24.140/api/v1" npx turbo build --filter=./apps/user
 
       - name: Transfer Admin files to Remote Server
         uses: easingthemes/ssh-deploy@main
