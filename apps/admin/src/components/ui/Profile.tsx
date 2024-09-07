@@ -38,6 +38,7 @@ const Profile = () => {
       }
     }
   }, []);
+
   const { data: authData, error: authError } = useSWR(
     token ? `${BASE_URL}/auth/me` : null,
     (url) => fetcher(url, token || "")
@@ -45,7 +46,7 @@ const Profile = () => {
 
   console.log(authData);
 
-  const username = "@" + (authData?.email?.split("@")[0] || "");
+  const username = "@Admin" + (authData?.email?.split("@")[0] || "");
   const profileImage = "/placeholder_profile.png";
 
   const handleLogout = () => {
@@ -75,10 +76,6 @@ const Profile = () => {
         </div>
       </DropdownMenuTrigger>
       <DropdownMenuContent className="bg-inherit text-white">
-        <DropdownMenuItem>
-          Settings
-          <DropdownMenuShortcut>⌘S</DropdownMenuShortcut>
-        </DropdownMenuItem>
         <DropdownMenuItem onClick={handleLogout}>
           Logout
           <DropdownMenuShortcut>⇧⌘Q</DropdownMenuShortcut>
