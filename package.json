@@ -6,7 +6,8 @@
     "dev": "turbo dev",
     "lint": "turbo lint",
     "start-kyc": "cd apps/kyc-service && poetry run uvicorn app:app --reload",
-    "format": "prettier --write \"**/*.{ts,tsx,md}\""
+    "format": "prettier --write \"**/*.{ts,tsx,md}\"",
+    "deploy":"NEXT_PUBLIC_API_URL=http://54.197.24.140/api/v1 turbo build"
   },
   "devDependencies": {
     "prettier": "^3.2.5",

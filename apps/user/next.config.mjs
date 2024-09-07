@@ -1,7 +1,9 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  output:'export',
+  distDir:'dest',
   images: {
-    domains: ["localhost"],
+    domains: ["localhost","54.197.24.140"],
   },
 };
 
