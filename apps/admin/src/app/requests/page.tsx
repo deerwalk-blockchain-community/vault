@@ -13,7 +13,7 @@ const fetcher = async (url: string, token: string): Promise<any> => {
   const response = await fetch(url, {
     method: "GET",
     headers: {
-      Authorization: `Bearer ${token}`,
+      Authorization: `Bearer ${JSON.parse(token)}`,
     },
   });
 
@@ -26,7 +26,7 @@ const fetcher = async (url: string, token: string): Promise<any> => {
 const Page = () => {
   useAuthRedirect("/requests");
   const [searchQuery, setSearchQuery] = useState("");
-  const token = JSON.parse(localStorage.getItem("token") || "");
+  const token = JSON.parse(JSON.stringify(localStorage.getItem("token") || ""));
   const { data: users_info, error } = useSWR<any>(
     `${BASE_URL}/user?limit=10&page=1&descending=true`,
     (url: string) => fetcher(url, token || "")

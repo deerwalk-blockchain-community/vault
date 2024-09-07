@@ -11,6 +11,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import Image from "next/image";
+import { BASE_URL } from "@/lib/constants";
 
 const Step1 = ({
   handleNextStep,
@@ -24,13 +25,16 @@ const Step1 = ({
   const [profileImagePreview, setProfileImagePreview] = useState("");
 
   useEffect(() => {
-    if (formData?.profileImage) {
+    if (formData?.profileImage && typeof formData.profileImage !== "string") {
+      // If profileImage is not a string, it's assumed to be a File object
       const imageUrl = URL.createObjectURL(formData.profileImage);
       setProfileImagePreview(imageUrl);
 
       return () => {
-        URL.revokeObjectURL(imageUrl);
+        URL.revokeObjectURL(imageUrl); // Clean up the URL object when component unmounts
       };
+    } else if (typeof formData?.profileImage === "string") {
+      setProfileImagePreview(`${BASE_URL}/uploads/${formData?.profileImage}`);
     }
   }, [formData?.profileImage]);
   const handleInputChange = (

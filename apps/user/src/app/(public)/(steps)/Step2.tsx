@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import SideBar from "@/components/ui/SideBar";
 import Profile from "../form/components/Profile";
 import Form from "./components/Form";
+import { BASE_URL } from "@/lib/constants";
 
 const Step2 = ({
   handleNextStep,
@@ -20,7 +21,12 @@ const Step2 = ({
   const [backImagePreview, setBackImagePreview] = useState("");
 
   useEffect(() => {
-    if (formData?.nidFrontImage && formData?.nidBackImage) {
+    if (
+      formData?.nidFrontImage &&
+      formData?.nidBackImage &&
+      typeof formData.nidFrontImage !== "string" &&
+      typeof formData.nidBackImage !== "string"
+    ) {
       const frontImageUrl = URL.createObjectURL(formData.nidFrontImage);
       const backImageUrl = URL.createObjectURL(formData.nidBackImage);
       setFrontImagePreview(frontImageUrl);
@@ -29,6 +35,12 @@ const Step2 = ({
         URL.revokeObjectURL(frontImageUrl);
         URL.revokeObjectURL(backImageUrl);
       };
+    } else if (
+      typeof formData.nidFrontImage == "string" ||
+      typeof formData.nidBackImage == "string"
+    ) {
+      setFrontImagePreview(`${BASE_URL}/uploads/${formData?.nidFrontImage}`);
+      setBackImagePreview(`${BASE_URL}/uploads/${formData?.nidBackImage}`);
     }
   }, [formData?.nidFrontImage, formData?.nidBackImage]);
 
