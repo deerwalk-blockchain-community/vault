@@ -40,6 +40,7 @@ const Page = () => {
       });
       router.push("/dashboard");
     } catch (error) {
+      console.log(error);
       toast({
         variant: "destructive",
         title: "Something went wrong!",
@@ -71,7 +72,7 @@ const Page = () => {
               className="text-black"
             />
             <Input
-              type="text"
+              type="password"
               onChange={handlePwChange}
               name="mail"
               value={password}

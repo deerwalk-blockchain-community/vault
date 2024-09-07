@@ -69,7 +69,7 @@ const Page = () => {
             />
 
             <Input
-              type="text"
+              type="password"
               onChange={handlePwChange}
               name="mail"
               value={password}

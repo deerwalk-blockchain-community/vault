@@ -76,10 +76,6 @@ const Profile = () => {
         </div>
       </DropdownMenuTrigger>
       <DropdownMenuContent className="bg-inherit text-white">
-        <DropdownMenuItem>
-          Settings
-          <DropdownMenuShortcut>⌘S</DropdownMenuShortcut>
-        </DropdownMenuItem>
         <DropdownMenuItem onClick={handleLogout}>
           Logout
           <DropdownMenuShortcut>⇧⌘Q</DropdownMenuShortcut>
