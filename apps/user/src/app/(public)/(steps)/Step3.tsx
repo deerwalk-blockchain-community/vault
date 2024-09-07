@@ -1,5 +1,5 @@
 "use client";
-import SideBar from "@/components/ui/SideBar";
+import SideBar from "@/components/SideBar";
 import PersonalInformation from "./components/PersonalInformation";
 import { useRouter } from "next/navigation";
 import { useToast } from "@/hooks/use-toast";

@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import SideBar from "@/components/ui/SideBar";
+import SideBar from "@/components/SideBar";
 import Profile from "../form/components/Profile";
 import {
   Select,

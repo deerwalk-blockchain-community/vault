@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import SideBar from "@/components/ui/SideBar";
+import SideBar from "@/components/SideBar";
 import Profile from "../form/components/Profile";
 import Form from "./components/Form";
 import { BASE_URL } from "@/lib/constants";
