@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import SideBar from "@/components/ui/SideBar";
 import Profile from "../form/components/Profile";
 import Form from "./components/Form";
@@ -19,6 +19,19 @@ const Step2 = ({
   const [frontImagePreview, setFrontImagePreview] = useState("");
   const [backImagePreview, setBackImagePreview] = useState("");
 
+  useEffect(() => {
+    if (formData?.nidFrontImage && formData?.nidBackImage) {
+      const frontImageUrl = URL.createObjectURL(formData.nidFrontImage);
+      const backImageUrl = URL.createObjectURL(formData.nidBackImage);
+      setFrontImagePreview(frontImageUrl);
+      setBackImagePreview(backImageUrl);
+      return () => {
+        URL.revokeObjectURL(frontImageUrl);
+        URL.revokeObjectURL(backImageUrl);
+      };
+    }
+  }, [formData?.nidFrontImage, formData?.nidBackImage]);
+
   const handleFrontImageChange = (e: any) => {
     console.log(e.target.files[0]);
     const file = e.target.files[0];
@@ -36,7 +49,6 @@ const Step2 = ({
   const handleSave = () => {
     handleNextStep();
   };
-
   return (
     <div className="flex flex-row w-full">
       <SideBar />
@@ -48,6 +60,8 @@ const Step2 = ({
           handleFrontImageChange={handleFrontImageChange}
           handleBackImageChange={handleBackImageChange}
           formData={formData}
+          frontImagePreview={frontImagePreview}
+          backImagePreview={backImagePreview}
         />
       </div>
     </div>
