@@ -62,7 +62,7 @@ const Step2 = ({
     handleNextStep();
   };
   return (
-    <div className="flex flex-row w-full">
+    <div className="flex flex-row">
       <SideBar />
       <Profile />
       <div className="mt-10 w-full">

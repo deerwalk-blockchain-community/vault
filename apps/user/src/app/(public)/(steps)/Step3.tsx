@@ -21,17 +21,11 @@ const Step3 = ({
   const router = useRouter();
   const { toast } = useToast();
   console.log(process.env.BASE_URL);
-  const [token, setToken] = useState<string>("");
-  useEffect(() => {
-    if (typeof window !== "undefined") {
-      const storedToken = localStorage.getItem("token");
-      if (storedToken) {
-        const parsedToken = JSON.parse(storedToken);
-        setToken(parsedToken);
-      }
-    }
-  }, []);
 
+  const token =
+    typeof window !== "undefined"
+      ? JSON.parse(JSON.stringify(localStorage.getItem("token"))) || ""
+      : null;
   console.log(token);
   const data = new FormData();
   const handleSubmit = async () => {

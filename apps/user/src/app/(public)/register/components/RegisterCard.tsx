@@ -39,7 +39,9 @@ const RegisterCard = () => {
       }
       const data = await response.json();
       const accessToken = data.access_token;
-      localStorage.setItem("token", JSON.stringify(accessToken));
+      if (typeof window !== "undefined") {
+        localStorage.setItem("token", JSON.stringify(accessToken));
+      }
       toast({
         title: "User registered successfully",
         description: "Redirecting to dashboard.....",
