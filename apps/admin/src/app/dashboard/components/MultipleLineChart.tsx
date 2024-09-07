@@ -39,10 +39,15 @@ export default function Component() {
     <Card className="bg-[#1A1B1D] border-none text-white">
       <CardHeader className="flex flex-row justify-between">
         <CardTitle>Overview</CardTitle>
-        <p className="font-thin text-xs ">Data updates every day </p>
+        <p className="hidden lg:block font-thin text-xs ">
+          Data updates every day{" "}
+        </p>
       </CardHeader>
       <CardContent className="flex flex-col">
-        <ChartContainer className="max-h-48" config={chartConfig}>
+        <ChartContainer
+          className=" w-32 md:w-48 lg:max-h-48"
+          config={chartConfig}
+        >
           <LineChart
             accessibilityLayer
             data={chartData}

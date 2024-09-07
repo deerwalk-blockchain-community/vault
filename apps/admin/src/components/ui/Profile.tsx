@@ -12,6 +12,7 @@ import useSWR from "swr";
 import { BASE_URL } from "@/lib/constants";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 const fetcher = async (url: string, token: string): Promise<any> => {
   const response = await fetch(url, {
     method: "GET",
@@ -76,10 +77,10 @@ const Profile = () => {
         </div>
       </DropdownMenuTrigger>
       <DropdownMenuContent className="bg-inherit text-white">
-        <DropdownMenuItem onClick={handleLogout}>
-          Logout
-          <DropdownMenuShortcut>⇧⌘Q</DropdownMenuShortcut>
+        <DropdownMenuItem>
+          <Link href="/dashboard">Dashboard</Link>
         </DropdownMenuItem>
+        <DropdownMenuItem onClick={handleLogout}>Logout</DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
   );
