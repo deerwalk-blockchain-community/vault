@@ -9,6 +9,7 @@ import { useToast } from "@/hooks/use-toast";
 import useAuthRedirect from "@/hooks/useAuthRedirect";
 
 const LoginCard = () => {
+  useAuthRedirect();
   const router = useRouter();
   const { toast } = useToast();
   const [formData, setFormData] = useState<FormDataField>({
