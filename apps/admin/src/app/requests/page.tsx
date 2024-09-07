@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Profile from "@/components/ui/Profile";
 import { RefreshCwIcon, Search, SlidersHorizontalIcon } from "lucide-react";
 import { Input } from "@/components/ui/input";
@@ -24,9 +24,20 @@ const fetcher = async (url: string, token: string): Promise<any> => {
 };
 
 const Page = () => {
+  const [token, setToken] = useState<string | null>();
   useAuthRedirect("/requests");
+
   const [searchQuery, setSearchQuery] = useState("");
-  const token = JSON.parse(JSON.stringify(localStorage.getItem("token") || ""));
+
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const storedToken = localStorage.getItem("token");
+      if (storedToken) {
+        const parsedToken = JSON.parse(storedToken);
+        setToken(parsedToken);
+      }
+    }
+  }, []);
   const { data: users_info, error } = useSWR<any>(
     `${BASE_URL}/user?limit=10&page=1&descending=true`,
     (url: string) => fetcher(url, token || "")

@@ -49,6 +49,15 @@ const Step1 = ({
     });
   };
 
+  const handleSelectChange = (e: any) => {
+    setFormData({
+      personalInfo: {
+        ...formData,
+        gender: e,
+      },
+    });
+  };
+
   const handleProfileImage = (e: any) => {
     console.log(e.target.files[0]);
     const file = e.target.files[0];
@@ -101,7 +110,7 @@ const Step1 = ({
                     defaultValue="MALE"
                     name="gender"
                     value={formData.gender}
-                    onValueChange={handleInputChange as any}
+                    onValueChange={handleSelectChange}
                   >
                     <SelectTrigger className="w-[180px]">
                       <SelectValue placeholder="Choose Gender"></SelectValue>

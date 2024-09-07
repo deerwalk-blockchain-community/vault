@@ -1,9 +1,11 @@
+"use client";
 import SideBar from "@/components/ui/SideBar";
 import PersonalInformation from "./components/PersonalInformation";
 import { useRouter } from "next/navigation";
 import { useToast } from "@/hooks/use-toast";
 import { ToastAction } from "@/components/ui/toast";
 import { BASE_URL } from "@/lib/constants";
+import { useEffect, useState } from "react";
 
 const Step3 = ({
   handleNextStep,
@@ -19,8 +21,17 @@ const Step3 = ({
   const router = useRouter();
   const { toast } = useToast();
   console.log(process.env.BASE_URL);
+  const [token, setToken] = useState<string>("");
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const storedToken = localStorage.getItem("token");
+      if (storedToken) {
+        const parsedToken = JSON.parse(storedToken);
+        setToken(parsedToken);
+      }
+    }
+  }, []);
 
-  const token = JSON.parse(JSON.stringify(localStorage.getItem("token"))) || "";
   console.log(token);
   const data = new FormData();
   const handleSubmit = async () => {
