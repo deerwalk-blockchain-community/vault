@@ -1,4 +1,5 @@
 import { Button } from "@/components/ui/button";
+import { BASE_URL } from "@/lib/constants";
 import Image from "next/image";
 import { useEffect, useState } from "react";
 
@@ -19,15 +20,28 @@ const PersonalInformation = ({
   const [isPrivacyPolicyAgreed, setIsPrivacyPolicyAgreed] = useState(false);
 
   useEffect(() => {
-    if (data.nidFrontImage) {
+    if (data.nidFrontImage && typeof data.nidFrontImage !== "string") {
       setFrontImagePreview(URL.createObjectURL(data.nidFrontImage));
     }
-    if (data.nidBackImage) {
+    if (data.nidBackImage && typeof data.nidBackImage !== "string") {
       setBackImagePreview(URL.createObjectURL(data.nidBackImage));
     }
-    if (data.personalInfo.profileImage) {
+    if (
+      data.personalInfo.profileImage &&
+      typeof data.personalInfo.profileImage !== "string"
+    ) {
       setProfileImagePreview(
         URL.createObjectURL(data.personalInfo.profileImage)
+      );
+    } else if (
+      typeof data.nidFrontImage == "string" &&
+      typeof data.nidBackImage == "string" &&
+      typeof data.personalInfo.profileImage == "string"
+    ) {
+      setFrontImagePreview(`${BASE_URL}/uploads/${data?.nidFrontImage}`);
+      setBackImagePreview(`${BASE_URL}/uploads/${data?.nidBackImage}`);
+      setProfileImagePreview(
+        `${BASE_URL}/uploads/${data?.personalInfo.profileImage}`
       );
     }
 

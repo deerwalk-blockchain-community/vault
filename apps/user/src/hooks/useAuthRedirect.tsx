@@ -7,11 +7,12 @@ const useAuthRedirect = (url?: string) => {
 
   useEffect(() => {
     const isAuthenticated = localStorage.getItem("token");
-    if (!isAuthenticated && !["/login", "/register"].includes(pathname)) {
+
+    if (!isAuthenticated && !["/login", "/signup"].includes(pathname)) {
       router.replace("/login");
     } else {
       {
-        url ? router.push(url) : router.push("/dashboard");
+        url ? router.push(url) : router.push("/form");
       }
     }
   }, [pathname, router]);

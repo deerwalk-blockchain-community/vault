@@ -4,8 +4,12 @@ import { ChangeEvent, FormEvent, useState } from "react";
 
 import { FormDataField } from "@/app/core/constants/formData";
 import { BASE_URL } from "@/lib/constants";
+import { useToast } from "@/hooks/use-toast";
+import { useRouter } from "next/navigation";
 
 const RegisterCard = () => {
+  const { toast } = useToast();
+  const router = useRouter();
   const [formData, setFormData] = useState<FormDataField>({
     email: "",
     password: "",
@@ -35,7 +39,12 @@ const RegisterCard = () => {
       }
       const data = await response.json();
       const accessToken = data.access_token;
-      localStorage.setItem("token", accessToken);
+      localStorage.setItem("token", JSON.stringify(accessToken));
+      toast({
+        title: "User registered successfully",
+        description: "Redirecting to dashboard.....",
+      });
+      router.push("/form");
       console.log("Submitted");
     } catch (error) {
       console.log(error);

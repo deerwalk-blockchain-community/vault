@@ -4,8 +4,13 @@ import { ChangeEvent, FormEvent, useState } from "react";
 
 import { FormDataField } from "@/app/core/constants/formData";
 import { BASE_URL } from "@/lib/constants";
+import { useRouter } from "next/navigation";
+import { useToast } from "@/hooks/use-toast";
+import useAuthRedirect from "@/hooks/useAuthRedirect";
 
 const LoginCard = () => {
+  const router = useRouter();
+  const { toast } = useToast();
   const [formData, setFormData] = useState<FormDataField>({
     email: "",
     password: "",
@@ -38,7 +43,11 @@ const LoginCard = () => {
       const data = await response.json();
       const accessToken = data.access_token;
       localStorage.setItem("token", JSON.stringify(accessToken));
-
+      toast({
+        title: "User logged in successfully",
+        description: "Redirecting to dashboard.....",
+      });
+      router.push("/form");
       console.log("Submitted");
     } catch (error) {
       console.log(error);

@@ -6,24 +6,64 @@ import {
   DropdownMenuShortcut,
   DropdownMenuSubTrigger,
   DropdownMenuTrigger,
-} from "./dropdown-menu";
+} from "@/components/ui/dropdown-menu";
+import useSWR from "swr";
+import { BASE_URL } from "@/lib/constants";
+import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
+const fetcher = async (url: string, token: string): Promise<any> => {
+  const response = await fetch(url, {
+    method: "GET",
+    headers: {
+      Authorization: `Bearer ${JSON.parse(token)}`,
+    },
+  });
+
+  if (!response.ok) {
+    throw new Error("Failed to fetch data");
+  }
+  return response.json();
+};
+
+const token: string | null = JSON.parse(
+  JSON.stringify(localStorage.getItem("token") || "")
+);
 
 const Profile = () => {
+  const router = useRouter();
+  const { data: authData, error: authError } = useSWR(
+    token ? `${BASE_URL}/auth/me` : null,
+    (url) => fetcher(url, token || "")
+  );
+
+  console.log(authData);
+
+  const username = "@" + (authData?.email?.split("@")[0] || "");
+  const profileImage = "/placeholder_profile.png";
+
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    router.push("/login");
+  };
+
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
         <div className="absolute right-0 flex gap-2 max-h-16 items-center">
           <div className="border border-[#fcfc03] rounded-[50%] w-16 h-16">
             <Image
-              src={"/apps/user/public/images/aashish.jpg"}
+              src={profileImage}
               alt="Profile Image"
               width={100}
               height={100}
+              className="rounded-full"
             />
           </div>
           <div>
-            <p className="text-gray-500 text-sm">@victor</p>
-            <p className="text-white">Von Doom</p>
+            <p className="text-gray-500 text-sm">{username}</p>
+            {/* <p className="text-white">
+              {firstName} {lastName}
+            </p> */}
           </div>
         </div>
       </DropdownMenuTrigger>
@@ -32,7 +72,7 @@ const Profile = () => {
           Settings
           <DropdownMenuShortcut>⌘S</DropdownMenuShortcut>
         </DropdownMenuItem>
-        <DropdownMenuItem>
+        <DropdownMenuItem onClick={handleLogout}>
           Logout
           <DropdownMenuShortcut>⇧⌘Q</DropdownMenuShortcut>
         </DropdownMenuItem>

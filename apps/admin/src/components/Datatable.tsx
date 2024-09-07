@@ -51,20 +51,24 @@ const Datatable = ({
   const [displayedData, setDisplayedData] = useState<any[]>([]);
   const [selectedRecord, setSelectedRecord] = useState<any | null>(null);
   const [verdict, setVerdict] = useState<string>("");
-
-  const token = JSON.parse(JSON.stringify(localStorage.getItem("token") || ""));
+  const [token, setToken] = useState("");
 
   // useLayoutEffect(() => {
   //   setIsMounted(true);
   // }, []);
-
+  useEffect(() => {
+    const storedToken = JSON.parse(
+      JSON.stringify(localStorage.getItem("token") || "")
+    );
+    setToken(storedToken);
+  }, []);
   useEffect(() => {
     if (!data || !Array.isArray(data)) {
       setDisplayedData([]);
       return;
     }
 
-    let filteredData = [...data]; //avoiding mutation, so we shallow copy
+    let filteredData = [...data];
 
     if (searchQuery) {
       filteredData = filteredData.filter((item: any) =>
@@ -74,12 +78,15 @@ const Datatable = ({
       );
     }
 
-    if (limit) {
+    if (limit && filteredData.length > limit) {
       filteredData = filteredData.slice(0, limit);
     }
 
-    setDisplayedData(filteredData);
-  }, [data, limit, searchQuery]);
+    // Only update displayedData if it is different from the current state
+    if (JSON.stringify(filteredData) !== JSON.stringify(displayedData)) {
+      setDisplayedData(filteredData);
+    }
+  }, [data, limit, searchQuery, displayedData]);
 
   const handleExpandClick = (record: any) => {
     setSelectedRecord(record);
@@ -90,7 +97,6 @@ const Datatable = ({
   };
 
   const handleReject = async (userID: string) => {
-    console.log(token + "SDFSDFSDFSF");
     try {
       const response = await fetch(`${BASE_URL}/user/${userID}/kyc`, {
         method: "POST",
