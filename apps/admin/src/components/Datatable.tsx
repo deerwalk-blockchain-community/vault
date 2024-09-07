@@ -137,7 +137,7 @@ const Datatable = ({
         method: "POST",
         headers: {
           "content-type": "application/json",
-          Authorization: `Bearer ${token}`,
+          Authorization: `Bearer ${JSON.parse(token)}`,
         },
         body: JSON.stringify({
           verdict: "ACCEPTED",
