@@ -1,14 +1,35 @@
 "use client";
 import { MdDashboard } from "react-icons/md";
 import { FaUser } from "react-icons/fa";
-import { IoMdNotifications } from "react-icons/io";
-import { useState } from "react";
+import { IoIosDocument, IoMdNotifications } from "react-icons/io";
+import { useEffect, useState } from "react";
+import { usePathname, useRouter } from "next/navigation";
 
 const SideBar = () => {
-  const [activeItem, setActiveItem] = useState("Dashboard");
+  const router = useRouter();
+  const pathname = usePathname();
+  const [activeItem, setActiveItem] = useState("");
+
+  useEffect(() => {
+    // Update active item based on the current path
+    if (pathname === "/dashboard") {
+      setActiveItem("Dashboard");
+    } else if (pathname === "/form") {
+      setActiveItem("KYC Form");
+    } else if (pathname === "/notifications") {
+      setActiveItem("Notifications");
+    }
+  }, [pathname]);
 
   const handleClick = (item: string) => {
     setActiveItem(item);
+    if (item === "Dashboard") {
+      router.push("/dashboard");
+    } else if (item === "KYC Form") {
+      router.push("/form");
+    } else if (item === "Notifications") {
+      router.push("/notifications");
+    }
   };
 
   return (
@@ -36,32 +57,17 @@ const SideBar = () => {
           </div>
           <div
             className={`flex gap-2 items-center mb-5 hover:cursor-pointer py-1 px-2 ${
-              activeItem === "Profile"
+              activeItem === "KYC Form"
                 ? "bg-[#fcfc03] text-black border border-[#fcfc03] rounded-lg"
                 : ""
             }`}
-            onClick={() => handleClick("Profile")}
+            onClick={() => handleClick("KYC Form")}
           >
             <div>
-              <FaUser />
+              <IoIosDocument />
             </div>
             <div>
-              <p>Profile</p>
-            </div>
-          </div>
-          <div
-            className={`flex gap-2 items-center mb-5 hover:cursor-pointer py-1 px-2 ${
-              activeItem === "Notifications"
-                ? "bg-[#fcfc03] text-black border border-[#fcfc03] rounded-lg"
-                : ""
-            }`}
-            onClick={() => handleClick("Notifications")}
-          >
-            <div>
-              <IoMdNotifications />
-            </div>
-            <div>
-              <p>Notifications</p>
+              <p>KYC Form</p>
             </div>
           </div>
         </div>

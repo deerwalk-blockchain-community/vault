@@ -6,8 +6,10 @@ import { FormDataField } from "@/app/core/constants/formData";
 import { BASE_URL } from "@/lib/constants";
 import { useToast } from "@/hooks/use-toast";
 import { useRouter } from "next/navigation";
+import useAuthRedirect from "@/hooks/useAuthRedirect";
 
 const RegisterCard = () => {
+  useAuthRedirect();
   const { toast } = useToast();
   const router = useRouter();
   const [formData, setFormData] = useState<FormDataField>({
