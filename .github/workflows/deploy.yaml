@@ -78,4 +78,5 @@ jobs:
           username: ${{ secrets.USERNAME }}
           key: ${{ secrets.EC2_SSH_KEY }}
           script: |
+            pwd
             PRODUCTION=1 pm2 reload all --update-env
