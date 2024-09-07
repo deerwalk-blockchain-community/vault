@@ -4,9 +4,11 @@ import Image from "next/image";
 const DashboardOverview = ({
   data,
   handleReapply,
+  handleReason,
 }: {
   data: any;
-  handleReapply: () => void;
+  handleReapply: (user: string) => void;
+  handleReason: (user: string) => string;
 }) => {
   return (
     <div>
@@ -45,13 +47,18 @@ const DashboardOverview = ({
               {data?.kyc?.status}
 
               {data?.kyc?.status === "REJECTED" ? (
-                <Button
-                  type="submit"
-                  onClick={handleReapply}
-                  className="bg-red-600"
-                >
-                  Reapply
-                </Button>
+                <span className="flex flex-col justify-center">
+                  <Button
+                    type="submit"
+                    onClick={() => handleReapply(data?.id)}
+                    className="bg-red-600"
+                  >
+                    Reapply
+                  </Button>
+                  <span className="text-xs text-red-500">
+                    Reason : {handleReason(data?.id)}
+                  </span>
+                </span>
               ) : null}
             </p>
           </div>
