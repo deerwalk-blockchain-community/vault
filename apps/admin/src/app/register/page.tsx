@@ -1,9 +1,17 @@
 "use client";
 import { Button } from "@/components/ui/button";
+import {
+  Card,
+  CardContent,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { ToastAction } from "@/components/ui/toast";
 import { useToast } from "@/components/ui/use-toast";
 import { AuthRepository } from "@/domain/repositories/authRepository";
+import Link from "next/link";
 import { redirect, useRouter } from "next/navigation";
 import React, { EventHandler, FormEvent, useState } from "react";
 
@@ -41,36 +49,46 @@ const Page = () => {
   };
 
   return (
-    <div className="flex flex-col items-center justify-center gap-16 min-h-screen bg-slate-700">
-      <p className="text-white">Auth test</p>
-      <form
-        action="POST"
-        onSubmit={handleSubmit}
-        className="flex flex-col gap-5"
-      >
-        <label htmlFor="mail" className="text-white">
-          {" "}
-          mail
-        </label>
-        <Input
-          type="text"
-          onChange={handleMailChange}
-          name="mail"
-          value={email}
-          placeholder="Enter Email"
-        />
-        <label htmlFor="password" className="text-white">
-          Password
-        </label>
-        <Input
-          type="text"
-          onChange={handlePwChange}
-          name="mail"
-          value={password}
-          placeholder="Enter Password"
-        />
-        <Button type="submit">Register</Button>
-      </form>
+    <div className="flex flex-col items-center justify-center gap-16 min-h-screen bg-primary">
+      <Card>
+        <CardHeader>
+          <CardTitle>Admin Register</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <form
+            action="POST"
+            onSubmit={handleSubmit}
+            className="flex flex-col gap-5"
+          >
+            <Input
+              type="text"
+              onChange={handleMailChange}
+              name="mail"
+              value={email}
+              placeholder="Enter Email"
+            />
+
+            <Input
+              type="password"
+              onChange={handlePwChange}
+              name="mail"
+              value={password}
+              placeholder="Enter Password"
+            />
+            <Button type="submit" className="text-white">
+              Register
+            </Button>
+          </form>
+        </CardContent>
+        <CardFooter>
+          <p className="text-sm">
+            Already registered? Proceed to{" "}
+            <Link href="/login" className="text-blue-500 font-bold">
+              Login
+            </Link>
+          </p>
+        </CardFooter>
+      </Card>
     </div>
   );
 };
