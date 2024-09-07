@@ -3,12 +3,13 @@ import SideBar from "@/components/SideBar";
 import DashboardOverview from "./components/DashboardOverview";
 import useSWR from "swr";
 import { BASE_URL } from "@/lib/constants";
+import { useRouter } from "next/navigation";
 
 const fetcher = async (url: string, token: string): Promise<any> => {
   const response = await fetch(url, {
     method: "GET",
     headers: {
-      Authorization: `Bearer ${token}`,
+      Authorization: `Bearer ${JSON.parse(token)}`,
     },
   });
 
@@ -22,11 +23,15 @@ const token: string | null = JSON.parse(
   JSON.stringify(localStorage.getItem("token") || "")
 );
 const DashboardPage = () => {
+  const router = useRouter();
   const { data: user = [], mutate } = useSWR(
     token ? `${BASE_URL}/user/kyc` : null,
     (url) => fetcher(url, token || "")
   );
 
+  const handleReapply = () => {
+    router.push("/form");
+  };
   console.log(user);
 
   return (
@@ -34,7 +39,7 @@ const DashboardPage = () => {
       <div className="w-[95%] mx-auto gap-8 flex flex-row">
         <SideBar />
         <div className="mt-10 w-full">
-          <DashboardOverview data={user} />
+          <DashboardOverview handleReapply={handleReapply} data={user} />
         </div>
       </div>
     </section>
