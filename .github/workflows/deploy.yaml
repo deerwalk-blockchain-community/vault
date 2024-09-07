@@ -27,7 +27,9 @@ jobs:
       - name: Build Frontend
         # working-directory: frontend
         run: |
-          npm run deploy
+          npx turbo build --filter=./apps/admin
+          npx turbo build --filter=./apps/backend
+          npx turbo build --filter=./apps/user
 
       - name: Transfer Admin files to Remote Server
         uses: easingthemes/ssh-deploy@main
