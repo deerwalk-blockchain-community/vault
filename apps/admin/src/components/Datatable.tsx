@@ -1,4 +1,5 @@
 "use client";
+import React, { useState, useEffect, useLayoutEffect } from "react";
 import {
   Table,
   TableBody,
@@ -7,8 +8,6 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-
-import React, { useState, useEffect, useLayoutEffect } from "react";
 import { FaExpandArrowsAlt } from "react-icons/fa";
 import {
   Dialog,
@@ -18,18 +17,17 @@ import {
 } from "./ui/dialog";
 import { Button } from "./ui/button";
 import { Popover, PopoverContent, PopoverTrigger } from "./ui/popover";
-
 import { Input } from "./ui/input";
-import useSWR from "swr";
 import { BASE_URL } from "@/lib/constants";
 import { toast } from "./ui/use-toast";
 import { ToastAction } from "./ui/toast";
+import useSWR from "swr";
 
 const fetcher = async (url: string, token: string): Promise<any> => {
   const response = await fetch(url, {
     method: "GET",
     headers: {
-      Authorization: `Bearer ${token}`,
+      Authorization: `Bearer ${JSON.parse(token)}`,
     },
   });
 
@@ -40,28 +38,35 @@ const fetcher = async (url: string, token: string): Promise<any> => {
 };
 
 const Datatable = ({
-  data = [],
   limit,
   searchQuery = "",
 }: {
-  data: any;
   limit?: number;
   searchQuery?: string;
 }) => {
   const [displayedData, setDisplayedData] = useState<any[]>([]);
   const [selectedRecord, setSelectedRecord] = useState<any | null>(null);
   const [verdict, setVerdict] = useState<string>("");
-  const [token, setToken] = useState("");
+  const [token, setToken] = useState<string>("");
+  const [isMounted, setIsMounted] = useState(false);
 
-  // useLayoutEffect(() => {
-  //   setIsMounted(true);
-  // }, []);
+  // Ensure component is mounted
+  useLayoutEffect(() => {
+    setIsMounted(true);
+  }, []);
+
+  // Get token from localStorage
   useEffect(() => {
-    const storedToken = JSON.parse(
-      JSON.stringify(localStorage.getItem("token") || "")
-    );
+    const storedToken = localStorage.getItem("token") || "";
     setToken(storedToken);
   }, []);
+
+  const { data: data, error } = useSWR<any>(
+    `${BASE_URL}/user?limit=10&page=1&descending=true`,
+    (url: string) => fetcher(url, token || "")
+  );
+  console.log(data);
+  // Update displayed data when data, limit, or searchQuery changes
   useEffect(() => {
     if (!data || !Array.isArray(data)) {
       setDisplayedData([]);
@@ -82,11 +87,11 @@ const Datatable = ({
       filteredData = filteredData.slice(0, limit);
     }
 
-    // Only update displayedData if it is different from the current state
+    // Only update if there's an actual change in displayedData
     if (JSON.stringify(filteredData) !== JSON.stringify(displayedData)) {
       setDisplayedData(filteredData);
     }
-  }, [data, limit, searchQuery, displayedData]);
+  }, [data, limit, searchQuery]); // Removed displayedData from dependencies
 
   const handleExpandClick = (record: any) => {
     setSelectedRecord(record);
@@ -115,7 +120,10 @@ const Datatable = ({
       toast({
         title: "User Rejected successfully",
       });
-      location.reload();
+      // Optimistically remove the rejected user from the displayed data
+      setDisplayedData((prevData) =>
+        prevData.filter((item) => item.kyc.id !== userID)
+      );
     } catch (error) {
       toast({
         variant: "destructive",
@@ -132,7 +140,7 @@ const Datatable = ({
         method: "POST",
         headers: {
           "content-type": "application/json",
-          Authorization: `Bearer ${JSON.parse(token)}`,
+          Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify({
           verdict: "ACCEPTED",
@@ -144,6 +152,14 @@ const Datatable = ({
       toast({
         title: "User Accepted successfully",
       });
+      // Optimistically update the status of the accepted user
+      setDisplayedData((prevData) =>
+        prevData.map((item) =>
+          item.kyc.id === userID
+            ? { ...item, kyc: { ...item.kyc, status: "ACCEPTED" } }
+            : item
+        )
+      );
     } catch (error) {
       toast({
         variant: "destructive",
@@ -154,7 +170,8 @@ const Datatable = ({
     }
   };
 
-  // if (!isMounted || !displayedData) return null;
+  // Fix hydration issue, rendering only when mounted
+  if (!isMounted) return null;
 
   return (
     <div className="bg-primary w-full p-5 rounded-lg">
@@ -246,7 +263,7 @@ const Datatable = ({
                 <Button
                   type="submit"
                   className="bg-green-500"
-                  onClick={() => handleAccept(selectedRecord.id)}
+                  onClick={() => handleAccept(selectedRecord.kyc.id)}
                 >
                   Accept
                 </Button>

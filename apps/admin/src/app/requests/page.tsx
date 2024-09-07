@@ -38,11 +38,7 @@ const Page = () => {
       }
     }
   }, []);
-  const { data: users_info, error } = useSWR<any>(
-    `${BASE_URL}/user?limit=10&page=1&descending=true`,
-    (url: string) => fetcher(url, token || "")
-  );
-  console.log(users_info);
+
   return (
     <div className="flex flex-row">
       <SideBar />
@@ -81,8 +77,8 @@ const Page = () => {
             </p> */}
           </div>
         </div>
-        <div className="mt-5 w-[99%]">
-          <Datatable data={users_info} searchQuery={searchQuery} />
+        <div className="mt-5 w-[99%]" suppressHydrationWarning>
+          <Datatable searchQuery={searchQuery} />
         </div>
       </div>
     </div>
