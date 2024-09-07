@@ -63,11 +63,11 @@ jobs:
       - name: Transfer Backend files to Remote Server
         uses: easingthemes/ssh-deploy@main
         with:
-          SOURCE: apps/backend/dist/
+          SOURCE: apps/backend/
           SSH_PRIVATE_KEY: ${{ secrets.EC2_SSH_KEY }}
           REMOTE_HOST: ${{ secrets.IP_ADDR }}
           REMOTE_USER: ${{ secrets.USERNAME }}
-          # EXCLUDE: "/node_modules/"
+          EXCLUDE: "/node_modules/"
           TARGET: /home/ubuntu/deployment/backend/
 
 
