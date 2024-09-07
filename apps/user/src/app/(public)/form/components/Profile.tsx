@@ -45,7 +45,7 @@ const Profile = () => {
   const username = "@" + (authData?.email?.split("@")[0] || "");
   const profileImage = kycData?.kyc?.profileImage
     ? `${BASE_URL}/uploads/${kycData.kyc.profileImage}`
-    : "/images/placeholder_profile.png";
+    : "/images/batman.png";
   const firstName = kycData?.kyc?.firstName || "";
   const lastName = kycData?.kyc?.lastName || "";
 
