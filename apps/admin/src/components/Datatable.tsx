@@ -103,8 +103,11 @@ const Datatable = ({
           reason: verdict,
         }),
       });
+      if (!response.ok) {
+        throw new Error("Query Failed");
+      }
       toast({
-        title: "User Accepted successfully",
+        title: "User Rejected successfully",
       });
     } catch (error) {
       toast({
@@ -128,6 +131,9 @@ const Datatable = ({
           verdict: "ACCEPTED",
         }),
       });
+      if (!response.ok) {
+        throw new Error("Query Failed");
+      }
       toast({
         title: "User Accepted successfully",
       });

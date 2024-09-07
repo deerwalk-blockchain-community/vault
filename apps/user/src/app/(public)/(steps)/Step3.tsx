@@ -43,7 +43,7 @@ const Step3 = ({
         method: "POST",
         headers: {
           // "Content-Type": "multipart/form-data",
-          Authorization: `Bearer ${token}`,
+          Authorization: `Bearer ${JSON.parse(token)}`,
         },
         body: data,
       });
