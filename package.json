@@ -5,6 +5,7 @@
     "build": "turbo build",
     "dev": "turbo dev",
     "lint": "turbo lint",
+    "start-kyc": "cd apps/kyc-service && poetry run uvicorn app:app --reload",
     "format": "prettier --write \"**/*.{ts,tsx,md}\""
   },
   "devDependencies": {
@@ -15,5 +16,11 @@
   "packageManager": "pnpm@8.15.6",
   "engines": {
     "node": ">=18"
+  },
+  "dependencies": {
+    "@lit-protocol/auth-helpers": "^6.4.10",
+    "@lit-protocol/constants": "^6.4.10",
+    "@lit-protocol/lit-node-client": "^6.4.10",
+    "ethers": "^5.7.2"
   }
 }
