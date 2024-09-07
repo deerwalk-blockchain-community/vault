@@ -79,4 +79,5 @@ jobs:
           key: ${{ secrets.EC2_SSH_KEY }}
           script: |
             pwd
+            ./deployment/deploy_backend.sh
             PRODUCTION=1 pm2 reload all --update-env
