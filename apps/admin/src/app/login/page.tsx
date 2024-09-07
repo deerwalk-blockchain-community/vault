@@ -6,7 +6,7 @@ import { AuthRepository } from "@/domain/repositories/authRepository";
 import { useRouter } from "next/navigation";
 import React, { EventHandler, FormEvent, useState } from "react";
 
-const page = () => {
+const Page = () => {
   const router = useRouter();
   const { toast } = useToast();
   const [email, setMail] = useState("");
@@ -23,7 +23,7 @@ const page = () => {
     e.preventDefault();
     try {
       const token = await AuthRepository.login({ email, password });
-      localStorage.setItem("token", JSON.stringify(token));
+      window.localStorage.setItem("token", JSON.stringify(token));
       toast({
         title: "User logged in successfully",
         description: "Redirecting to dashboard.....",
@@ -69,4 +69,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default Page;

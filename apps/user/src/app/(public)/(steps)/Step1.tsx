@@ -108,9 +108,7 @@ const Step1 = ({
                     defaultValue="MALE"
                     name="gender"
                     value={formData.gender}
-                    onValueChange={(value) =>
-                      handleSelectChange(value)
-                    }
+                    onValueChange={(value) => handleSelectChange(value)}
                   >
                     <SelectTrigger className="w-[180px]">
                       <SelectValue placeholder="Choose Gender"></SelectValue>

@@ -1,9 +1,11 @@
+"use client";
 import SideBar from "@/components/ui/SideBar";
 import PersonalInformation from "./components/PersonalInformation";
 import { useRouter } from "next/navigation";
 import { useToast } from "@/hooks/use-toast";
 import { ToastAction } from "@/components/ui/toast";
 import { BASE_URL } from "@/lib/constants";
+import { useEffect, useState } from "react";
 
 const Step3 = ({
   handleNextStep,

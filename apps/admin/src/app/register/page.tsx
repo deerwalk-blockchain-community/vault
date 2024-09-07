@@ -7,7 +7,7 @@ import { AuthRepository } from "@/domain/repositories/authRepository";
 import { redirect, useRouter } from "next/navigation";
 import React, { EventHandler, FormEvent, useState } from "react";
 
-const page = () => {
+const Page = () => {
   const { toast } = useToast();
   const router = useRouter();
   const [email, setMail] = useState("");
@@ -75,4 +75,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default Page;
