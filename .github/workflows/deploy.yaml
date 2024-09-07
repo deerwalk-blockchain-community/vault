@@ -29,8 +29,7 @@ jobs:
       - name: Install Dependencies
         # working-directory: frontend
         run: |
-          npm install
-
+          pnpm install
 
       - name: Build Frontend
         # working-directory: frontend
