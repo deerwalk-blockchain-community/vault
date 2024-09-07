@@ -50,12 +50,10 @@ const Datatable = ({
   const [token, setToken] = useState<string>("");
   const [isMounted, setIsMounted] = useState(false);
 
-  // Ensure component is mounted
   useLayoutEffect(() => {
     setIsMounted(true);
   }, []);
 
-  // Get token from localStorage
   useEffect(() => {
     const storedToken = localStorage.getItem("token") || "";
     setToken(storedToken);
@@ -66,7 +64,7 @@ const Datatable = ({
     (url: string) => fetcher(url, token || "")
   );
   console.log(data);
-  // Update displayed data when data, limit, or searchQuery changes
+
   useEffect(() => {
     if (!data || !Array.isArray(data)) {
       setDisplayedData([]);
@@ -87,11 +85,10 @@ const Datatable = ({
       filteredData = filteredData.slice(0, limit);
     }
 
-    // Only update if there's an actual change in displayedData
     if (JSON.stringify(filteredData) !== JSON.stringify(displayedData)) {
       setDisplayedData(filteredData);
     }
-  }, [data, limit, searchQuery]); // Removed displayedData from dependencies
+  }, [data, limit, searchQuery]);
 
   const handleExpandClick = (record: any) => {
     setSelectedRecord(record);
@@ -120,7 +117,7 @@ const Datatable = ({
       toast({
         title: "User Rejected successfully",
       });
-      // Optimistically remove the rejected user from the displayed data
+
       setDisplayedData((prevData) =>
         prevData.filter((item) => item.kyc.id !== userID)
       );
@@ -152,7 +149,7 @@ const Datatable = ({
       toast({
         title: "User Accepted successfully",
       });
-      // Optimistically update the status of the accepted user
+
       setDisplayedData((prevData) =>
         prevData.map((item) =>
           item.kyc.id === userID
@@ -170,7 +167,6 @@ const Datatable = ({
     }
   };
 
-  // Fix hydration issue, rendering only when mounted
   if (!isMounted) return null;
 
   return (
@@ -185,29 +181,33 @@ const Datatable = ({
           <TableHead>Status</TableHead>
           <TableHead></TableHead>
         </TableRow>
-        {displayedData?.map((cell: any, index: number) => (
-          <TableBody key={index}>
-            <TableRow>
-              <TableCell>{cell?.kyc?.id}</TableCell>
-              <TableCell>
-                {cell?.kyc?.firstName + " " + cell?.kyc?.lastName}
-              </TableCell>
-              <TableCell>{cell?.kyc?.address}</TableCell>
-              <TableCell>
-                {new Date(cell?.kyc?.createdAt).toLocaleDateString()}
-              </TableCell>
-              <TableCell>{cell?.kyc?.status}</TableCell>
-              {!limit ? (
-                <TableCell
-                  className="hover:cursor-pointer"
-                  onClick={() => handleExpandClick(cell)}
-                >
-                  <FaExpandArrowsAlt />
+        {!data ? (
+          <div>Loading....</div>
+        ) : (
+          displayedData?.map((cell: any, index: number) => (
+            <TableBody key={index}>
+              <TableRow>
+                <TableCell>{cell?.kyc?.id}</TableCell>
+                <TableCell>
+                  {cell?.kyc?.firstName + " " + cell?.kyc?.lastName}
                 </TableCell>
-              ) : null}
-            </TableRow>
-          </TableBody>
-        ))}
+                <TableCell>{cell?.kyc?.address}</TableCell>
+                <TableCell>
+                  {new Date(cell?.kyc?.createdAt).toLocaleDateString()}
+                </TableCell>
+                <TableCell>{cell?.kyc?.status}</TableCell>
+                {!limit ? (
+                  <TableCell
+                    className="hover:cursor-pointer"
+                    onClick={() => handleExpandClick(cell)}
+                  >
+                    <FaExpandArrowsAlt />
+                  </TableCell>
+                ) : null}
+              </TableRow>
+            </TableBody>
+          ))
+        )}
       </Table>
 
       {selectedRecord && (
