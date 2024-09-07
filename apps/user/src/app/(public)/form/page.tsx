@@ -42,9 +42,10 @@ const Page = () => {
     nidBackImage: null,
   });
 
-  const token: string | null = JSON.parse(
-    JSON.stringify(localStorage.getItem("token") || "")
-  );
+  const token: string | null =
+    typeof window !== "undefined"
+      ? JSON.parse(JSON.stringify(localStorage.getItem("token") || ""))
+      : null;
 
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);

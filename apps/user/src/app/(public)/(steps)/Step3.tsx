@@ -20,7 +20,10 @@ const Step3 = ({
   const { toast } = useToast();
   console.log(process.env.BASE_URL);
 
-  const token = JSON.parse(JSON.stringify(localStorage.getItem("token"))) || "";
+  const token =
+    typeof window !== "undefined"
+      ? JSON.parse(JSON.stringify(localStorage.getItem("token"))) || ""
+      : null;
   console.log(token);
   const data = new FormData();
   const handleSubmit = async () => {
