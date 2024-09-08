@@ -95,4 +95,14 @@ export class UsersService {
     console.log('The rejections are : ', rejections);
     return rejections;
   }
+  async postToChain(data : {first_name : string, last_name : string, nidNumber : string }){
+    const response = await fetch("http://127.0.0.1:3000/api/person", {
+      headers:{
+        'Content-Type':'application/json'
+      },
+      body: JSON.stringify(data),
+      method:'POST'
+    });
+    console.log(response);
+  }
 }

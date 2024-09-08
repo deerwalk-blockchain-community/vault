@@ -20,6 +20,7 @@ import { ValidateUserGuard } from 'src/auth/guards/validateUserGuard';
 import { User } from 'src/kyc/decorators/userDecorator';
 import { UserWithOutPassword } from 'src/core/entities/userEntity';
 
+
 @ApiTags('Users')
 @Controller('user')
 export class UsersController {
@@ -67,6 +68,7 @@ export class UsersController {
         await this.userService.rejectKyc(user.kyc?.id!, request.reason!);
         return this.userService.setUserStatus(userId, KYCStatus.REJECTED);
       case 'ACCEPTED':
+        await this.userService.postToChain({first_name: user.kyc?.firstName!, last_name: user.kyc?.lastName!, nidNumber:user.kyc?.nidNumber! });
         return this.userService.setUserStatus(userId, KYCStatus.ACCEPTED);
       //
       default:
