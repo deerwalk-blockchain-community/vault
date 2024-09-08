@@ -63,8 +63,8 @@ const fs = require("fs");
 
 const data = {
   nidNumber: "1234567891",
-  firstName: "John",
-  lastName: "Doe"
+  first_name: "John",
+  last_name: "Doe"
 };
 
 async function main() {
@@ -82,7 +82,7 @@ async function main() {
   fs.writeFileSync("deployed-address.json", JSON.stringify({ KYC: contractAddress }));
 
   try {
-        const response = await axios.post("http://localhost:3000/api/owner", {
+        const response = await axios.post("http://localhost:3005/api/owner", {
           ownerAddress: deployer.address,
         });
     

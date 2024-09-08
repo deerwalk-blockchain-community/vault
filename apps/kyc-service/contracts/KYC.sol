@@ -2,8 +2,8 @@ pragma solidity >=0.4.22 <0.9.0;
 
 contract KYC {
     struct Person {
-        string firstName;
-        string lastName;
+        string first_name;
+        string last_name;
         string nidNumber;
     }
 
@@ -11,16 +11,16 @@ contract KYC {
 
     function createPerson(
         string memory _nidNumber,
-        string memory _firstName,
-        string memory _lastName
+        string memory _first_name,
+        string memory _last_name
     ) public {
-        people[_nidNumber] = Person(_firstName, _lastName, _nidNumber);
+        people[_nidNumber] = Person(_first_name, _last_name, _nidNumber);
     }
 
     function getPerson(
         string memory _nidNumber
     ) public view returns (string memory, string memory, string memory) {
         Person memory person = people[_nidNumber];
-        return (person.firstName, person.lastName, person.nidNumber);
+        return (person.first_name, person.last_name, person.nidNumber);
     }
 }

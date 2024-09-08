@@ -8,7 +8,7 @@ var jsonPath = path.join(__dirname, '.',  'deployed-address.json');
 
 let jsonString = fs.readFileSync(jsonPath,'utf8')
 const app = express();
-const PORT = 3000;
+const PORT = 3005;
 
 
 app.use(bodyParser.json());
@@ -31,17 +31,17 @@ app.post('/api/owner', (req, res) => {
 
 
 app.post('/api/person', async (req, res) => {
-    const { nidNumber, firstName, lastName } = req.body;
+    const { nidNumber, first_name, last_name } = req.body;
 
     // Validate request body
-    if (!nidNumber || !firstName || !lastName) {
-        return res.status(400).send('Missing required fields: nidNumber, firstName, lastName');
+    if (!nidNumber || !first_name || !last_name) {
+        return res.status(400).send('Missing required fields: nidNumber, first_name, last_name');
     }
 
     try {
         // Get the deployed KYC contract using Hardhat
         const KYC = await hre.ethers.getContractAt("KYC", "0x9561C133DD8580860B6b7E504bC5Aa500f0f06a7");
-        const tx = await KYC.createPerson(nidNumber, firstName, lastName);
+        const tx = await KYC.createPerson(nidNumber, first_name, last_name);
         await tx.wait();
 
         console.log(`Person with NID ${nidNumber} created successfully on the blockchain`);
@@ -66,9 +66,9 @@ app.get('/api/person/:nidNumber', async (req, res) => {
 
         const person = await KYC.getPerson(nidNumber);
         console.log(person);
-        const [firstName, lastName, retrievedNidNumber] = person;
+        const [first_name, last_name, retrievedNidNumber] = person;
 
-        if (!firstName || !lastName || !retrievedNidNumber) {
+        if (!first_name || !last_name || !retrievedNidNumber) {
             return res.status(404).json({ error: 'Person not found' });
         }
 
