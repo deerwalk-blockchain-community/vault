@@ -87,7 +87,7 @@ const LoginCard = () => {
           Welcome back to <span className="font-semibold">VAULT</span>
         </h1>
         <p className="my-8 font-light">
-          Don't have an account?{" "}
+          Don&apos;t have an account?{" "}
           <Link href={"/register"}>
             <span className="text-[#FCFC03]">Sign up</span>
           </Link>
