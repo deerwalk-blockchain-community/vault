@@ -57,7 +57,7 @@ const Page = () => {
   );
   console.log(userData);
   useEffect(() => {
-    if (userData?.kyc) {
+    if (userData?.kyc && userData?.kyc?.status !== "REJECTED") {
       // Ensure the condition to check if KYC is completed or already sent
       toast({
         title: "Application already sent",
