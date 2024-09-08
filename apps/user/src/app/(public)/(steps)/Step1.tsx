@@ -196,7 +196,6 @@ const Step1 = ({
               </div>
             </div>
             <div className="flex justify-center items-center gap-4 mt-12 pb-4">
-              <Button className="border">Back</Button>
               <Button className="border border-yellow-500" onClick={handleSave}>
                 Save and Continue
               </Button>

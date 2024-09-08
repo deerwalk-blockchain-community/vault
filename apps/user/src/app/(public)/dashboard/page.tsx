@@ -53,10 +53,10 @@ const DashboardPage = () => {
 
   return (
     <section className="w-full">
-      <div className="w-[95%] relative mx-auto gap-8 flex flex-row">
+      <div className="w-[95%] relative mx-auto gap-8 pt-2 flex flex-row">
         <SideBar />
         <Profile />
-        <div className="mt-10 w-full">
+        <div className="mt-16 w-full">
           {user?.kyc ? (
             <DashboardOverview
               handleReason={handleReason}
