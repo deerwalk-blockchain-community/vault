@@ -71,7 +71,7 @@ const Step1 = ({
   console.log(formData);
 
   return (
-    <div className="flex flex-row">
+    <div className="flex flex-row relative">
       <SideBar />
       <Profile />
       <div className="w-full">
@@ -90,6 +90,7 @@ const Step1 = ({
                     className="text-black"
                     value={formData.firstName}
                     onChange={handleInputChange}
+                    required
                   />
                 </div>
                 <div className="col-span-2">
@@ -100,6 +101,7 @@ const Step1 = ({
                     className="text-black"
                     // value={formData?.lastName}
                     onChange={handleInputChange}
+                    required
                   />
                 </div>
                 <div className="col-span-2">
@@ -126,6 +128,7 @@ const Step1 = ({
                     type="number"
                     value={formData.nidNumber}
                     onChange={handleInputChange}
+                    required
                   />
                 </div>
                 <div className="col-span-4">
@@ -135,6 +138,7 @@ const Step1 = ({
                     type="text"
                     value={formData.address}
                     onChange={handleInputChange}
+                    required
                   />
                 </div>
               </div>
@@ -186,6 +190,7 @@ const Step1 = ({
                     id="dropzone-file"
                     type="file"
                     className="hidden"
+                    required
                   />
                 </label>
               </div>

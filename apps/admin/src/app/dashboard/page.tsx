@@ -65,7 +65,7 @@ const Page = () => {
   console.log(users_info);
   return (
     <div className="flex flex-row space-x-2 px-5">
-      <div className="mr-5">
+      <div className="mr-5 hidden lg:block">
         <SideBar />
       </div>
       <div className="flex flex-col">
@@ -76,25 +76,24 @@ const Page = () => {
         >
           <Profile />
         </div>
-        <div>
+        <div className="mb-1">
           <Welcome name={"Admin"} />
         </div>
-        <div className="grid grid-cols-3 gap-10">
+        <div className="grid grid-cols-3 gap-10" suppressHydrationWarning>
           <LogSummary />
           <OverallSummary />
 
           <Overview />
           <div className="col-span-3">
-            <p className="flex flex-row gap-2 justify-end">
-              <Link
-                href={"/requests"}
-                className="flex flex-row items-center gap-2"
-              >
-                See All
-                <FiFastForward />
-              </Link>
-            </p>
-            <Datatable data={users_info} limit={3} />
+            <Link
+              href={"/requests"}
+              className="flex flex-row items-center gap-2"
+            >
+              See All
+              <FiFastForward />
+            </Link>
+
+            <Datatable limit={3} />
           </div>
         </div>
       </div>

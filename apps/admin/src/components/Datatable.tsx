@@ -1,14 +1,14 @@
 "use client";
+import React, { useState, useEffect, useLayoutEffect } from "react";
 import {
   Table,
   TableBody,
+  TableCaption,
   TableCell,
   TableHead,
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-
-import React, { useState, useEffect, useLayoutEffect } from "react";
 import { FaExpandArrowsAlt } from "react-icons/fa";
 import {
   Dialog,
@@ -18,18 +18,17 @@ import {
 } from "./ui/dialog";
 import { Button } from "./ui/button";
 import { Popover, PopoverContent, PopoverTrigger } from "./ui/popover";
-
 import { Input } from "./ui/input";
-import useSWR from "swr";
 import { BASE_URL } from "@/lib/constants";
 import { toast } from "./ui/use-toast";
 import { ToastAction } from "./ui/toast";
+import useSWR from "swr";
 
 const fetcher = async (url: string, token: string): Promise<any> => {
   const response = await fetch(url, {
     method: "GET",
     headers: {
-      Authorization: `Bearer ${token}`,
+      Authorization: `Bearer ${JSON.parse(token)}`,
     },
   });
 
@@ -40,28 +39,33 @@ const fetcher = async (url: string, token: string): Promise<any> => {
 };
 
 const Datatable = ({
-  data = [],
   limit,
   searchQuery = "",
 }: {
-  data: any;
   limit?: number;
   searchQuery?: string;
 }) => {
   const [displayedData, setDisplayedData] = useState<any[]>([]);
   const [selectedRecord, setSelectedRecord] = useState<any | null>(null);
   const [verdict, setVerdict] = useState<string>("");
-  const [token, setToken] = useState("");
+  const [token, setToken] = useState<string>("");
+  const [isMounted, setIsMounted] = useState(false);
 
-  // useLayoutEffect(() => {
-  //   setIsMounted(true);
-  // }, []);
+  useLayoutEffect(() => {
+    setIsMounted(true);
+  }, []);
+
   useEffect(() => {
-    const storedToken = JSON.parse(
-      JSON.stringify(localStorage.getItem("token") || "")
-    );
+    const storedToken = localStorage.getItem("token") || "";
     setToken(storedToken);
   }, []);
+
+  const { data: data, error } = useSWR<any>(
+    `${BASE_URL}/user?limit=10&page=1&descending=true`,
+    (url: string) => fetcher(url, token || "")
+  );
+  console.log(data);
+
   useEffect(() => {
     if (!data || !Array.isArray(data)) {
       setDisplayedData([]);
@@ -82,11 +86,10 @@ const Datatable = ({
       filteredData = filteredData.slice(0, limit);
     }
 
-    // Only update displayedData if it is different from the current state
     if (JSON.stringify(filteredData) !== JSON.stringify(displayedData)) {
       setDisplayedData(filteredData);
     }
-  }, [data, limit, searchQuery, displayedData]);
+  }, [data, limit, searchQuery]);
 
   const handleExpandClick = (record: any) => {
     setSelectedRecord(record);
@@ -115,7 +118,10 @@ const Datatable = ({
       toast({
         title: "User Rejected successfully",
       });
-      location.reload();
+
+      setDisplayedData((prevData) =>
+        prevData.filter((item) => item.kyc.id !== userID)
+      );
     } catch (error) {
       toast({
         variant: "destructive",
@@ -144,6 +150,14 @@ const Datatable = ({
       toast({
         title: "User Accepted successfully",
       });
+
+      setDisplayedData((prevData) =>
+        prevData.map((item) =>
+          item.id === userID
+            ? { ...item, kyc: { ...item.kyc, status: "ACCEPTED" } }
+            : item
+        )
+      );
     } catch (error) {
       toast({
         variant: "destructive",
@@ -154,10 +168,10 @@ const Datatable = ({
     }
   };
 
-  // if (!isMounted || !displayedData) return null;
+  if (!isMounted) return null;
 
   return (
-    <div className="bg-primary w-full p-5 rounded-lg">
+    <div className="bg-primary w-full p-5 rounded-lg" suppressHydrationWarning>
       <Table className="disabled:hover">
         <TableHeader>Recent Requests ({displayedData?.length})</TableHeader>
         <TableRow>
@@ -168,29 +182,35 @@ const Datatable = ({
           <TableHead>Status</TableHead>
           <TableHead></TableHead>
         </TableRow>
-        {displayedData?.map((cell: any, index: number) => (
-          <TableBody key={index}>
-            <TableRow>
-              <TableCell>{cell?.kyc?.id}</TableCell>
-              <TableCell>
-                {cell?.kyc?.firstName + " " + cell?.kyc?.lastName}
-              </TableCell>
-              <TableCell>{cell?.kyc?.address}</TableCell>
-              <TableCell>
-                {new Date(cell?.kyc?.createdAt).toLocaleDateString()}
-              </TableCell>
-              <TableCell>{cell?.kyc?.status}</TableCell>
-              {!limit ? (
-                <TableCell
-                  className="hover:cursor-pointer"
-                  onClick={() => handleExpandClick(cell)}
-                >
-                  <FaExpandArrowsAlt />
-                </TableCell>
-              ) : null}
-            </TableRow>
+        {!data ? (
+          <TableBody>
+            <TableCaption>Loading...</TableCaption>
           </TableBody>
-        ))}
+        ) : (
+          displayedData?.map((cell: any, index: number) => (
+            <TableBody key={index}>
+              <TableRow>
+                <TableCell>{cell?.kyc?.id}</TableCell>
+                <TableCell>
+                  {cell?.kyc?.firstName + " " + cell?.kyc?.lastName}
+                </TableCell>
+                <TableCell>{cell?.kyc?.address}</TableCell>
+                <TableCell>
+                  {new Date(cell?.kyc?.createdAt).toLocaleDateString()}
+                </TableCell>
+                <TableCell>{cell?.kyc?.status}</TableCell>
+                {!limit ? (
+                  <TableCell
+                    className="hover:cursor-pointer"
+                    onClick={() => handleExpandClick(cell)}
+                  >
+                    <FaExpandArrowsAlt />
+                  </TableCell>
+                ) : null}
+              </TableRow>
+            </TableBody>
+          ))
+        )}
       </Table>
 
       {selectedRecord && (
@@ -207,16 +227,16 @@ const Datatable = ({
               <div className="flex flex-row">
                 <div className="flex flex-col">
                   <p>
-                    {selectedRecord.kyc.firstName} {selectedRecord.kyc.lastName}{" "}
-                    {selectedRecord.id}
+                    {selectedRecord?.kyc.firstName}{" "}
+                    {selectedRecord?.kyc.lastName} {selectedRecord?.id}
                   </p>
-                  <p>{selectedRecord.kyc.address}</p>
+                  <p>{selectedRecord?.kyc.address}</p>
                   <p>
                     {new Date(
-                      selectedRecord.kyc.createdAt
+                      selectedRecord?.kyc.createdAt
                     ).toLocaleDateString()}
                   </p>
-                  <p>{selectedRecord.kyc.status}</p>
+                  <p>{selectedRecord?.kyc.status}</p>
                 </div>
               </div>
               <div className="flex gap-5 justify-center">
@@ -246,7 +266,7 @@ const Datatable = ({
                 <Button
                   type="submit"
                   className="bg-green-500"
-                  onClick={() => handleAccept(selectedRecord.id)}
+                  onClick={() => handleAccept(selectedRecord?.id)}
                 >
                   Accept
                 </Button>

@@ -38,18 +38,16 @@ const Page = () => {
       }
     }
   }, []);
-  const { data: users_info, error } = useSWR<any>(
-    `${BASE_URL}/user?limit=10&page=1&descending=true`,
-    (url: string) => fetcher(url, token || "")
-  );
-  console.log(users_info);
+
   return (
     <div className="flex flex-row">
-      <SideBar />
+      <div className="hidden lg:block">
+        <SideBar />
+      </div>
       <Profile />
 
       <div className="flex flex-1 flex-col justify-center items-center">
-        <div className="relative mr-auto flex-1 md:grow-0 mx-5">
+        <div className="relative mr-auto flex-1 md:grow-0 mx-5 mt-2">
           <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
           <Input
             type="search"
@@ -59,7 +57,7 @@ const Page = () => {
             onChange={(e) => setSearchQuery(e.target.value)}
           />
         </div>
-        <div className="flex flex-row justify-between p-5 rounded-lg bg-primary w-[99%] mt-16 ">
+        <div className="flex flex-row justify-between p-5 rounded-lg bg-primary min-w-96 w-[80%] sm:w-[85%] md:w-[90%] lg:w-[99%] mt-16 ">
           <h1>
             Requests{" "}
             <span className="block text-xs pt-1 font-thin">
@@ -73,16 +71,13 @@ const Page = () => {
                 <RefreshCwIcon />
               </span>
             </p>
-            {/* <p className="flex flex-row">
-              Filter{" "}
-              <span className="ml-2">
-                <SlidersHorizontalIcon />
-              </span>
-            </p> */}
           </div>
         </div>
-        <div className="mt-5 w-[99%]">
-          <Datatable data={users_info} searchQuery={searchQuery} />
+        <div
+          className="mt-5 min-w-96 w-[80%] sm:w-[85%] md:w-[90%] lg:w-[99%]"
+          suppressHydrationWarning
+        >
+          <Datatable searchQuery={searchQuery} />
         </div>
       </div>
     </div>

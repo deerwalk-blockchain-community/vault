@@ -8,6 +8,8 @@ import Profile from "./components/Profile";
 import useAuthRedirect from "@/hooks/useAuthRedirect";
 import useSWR from "swr";
 import { BASE_URL } from "@/lib/constants";
+import { useRouter } from "next/navigation";
+import { useToast } from "@/hooks/use-toast";
 
 const fetcher = async (url: string, token: string): Promise<any> => {
   const response = await fetch(url, {
@@ -25,6 +27,8 @@ const fetcher = async (url: string, token: string): Promise<any> => {
 
 const Page = () => {
   useAuthRedirect();
+  const router = useRouter();
+  const { toast } = useToast();
   const [activeTab, setActive] = useState(1);
   const steps = ["Step 1", "Step 2", "Step 3"];
   const [complete, setComplete] = useState(false);
@@ -47,38 +51,24 @@ const Page = () => {
       ? JSON.parse(JSON.stringify(localStorage.getItem("token") || ""))
       : null;
 
-  useEffect(() => {
-    const params = new URLSearchParams(window.location.search);
-    const Id = params.get("ref");
-
-    if (Id) {
-      console.log("User ID:", Id);
-      setUserId(Id);
-    }
-  }, []);
-
   const { data: userData = [], error } = useSWR(
-    userId && token ? `${BASE_URL}/user/kyc` : null,
+    token ? `${BASE_URL}/user/kyc` : null,
     (url) => fetcher(url, token || "")
   );
-
+  console.log(userData);
   useEffect(() => {
     if (userData?.kyc) {
-      // Populate formData with the fetched userData.kyc
-      setFormData({
-        personalInfo: {
-          firstName: userData.kyc.firstName || "",
-          lastName: userData.kyc.lastName || "",
-          gender: userData.kyc.gender || "MALE",
-          nidNumber: userData.kyc.nidNumber || "",
-          address: userData.kyc.address || "",
-          profileImage: userData.kyc.profileImage || null,
-        },
-        nidFrontImage: userData.kyc.nidImageFront || null,
-        nidBackImage: userData.kyc.nidImageBack || null,
+      // Ensure the condition to check if KYC is completed or already sent
+      toast({
+        title: "Application already sent",
+        description: "Redirecting...",
       });
+
+      setTimeout(() => {
+        router.replace("/thank-you");
+      }, 500); // Add a small delay to allow the toast to show
     }
-  }, [userData]);
+  }, [userData, router, toast]);
 
   const handleNextStep = () => {
     if (activeTab < steps.length) {
@@ -131,7 +121,8 @@ const Page = () => {
 
   return (
     <div className="flex flex-col items-center w-full">
-      <div className="absolute left-1/2 transform -translate-x-1/2">
+      <div className="absolute left-1/2 transform -translate-x-1/2 pb-4 pt-1 rounded-b-xl bg-[#1a1b1d]">
+        <h2 className="text-center">KYC Verification</h2>
         <div className="flex flex-row justify-between mt-5">
           {steps.map((step, i) => (
             <div
