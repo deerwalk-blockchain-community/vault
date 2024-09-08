@@ -2,18 +2,18 @@
 import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
 
-const EditRequest = () => {
+const NewUserDashboard = () => {
   const router = useRouter();
   return (
     <div className="bg-[#1a1b1d] w-full mt-8 mx-auto rounded-xl">
       <div className="w-[90%] mx-auto py-8">
-        <div className="text-center ">
-          <Button
-            className="bg-[#242424]"
-            onClick={() => router.push("/dashboard")}
-          >
+        <h1 className="text-center text-2xl font-semibold ">
+          You Haven't Filled Out the KYC Yet
+        </h1>
+        <div className="text-center mt-8">
+          <Button className="bg-[#242424]" onClick={() => router.push("/form")}>
             {" "}
-            Visit Dashboard{" "}
+            Fill KYC{" "}
           </Button>
           <p className="mt-8">If you have any queries, Contact Us</p>
         </div>
@@ -22,4 +22,4 @@ const EditRequest = () => {
   );
 };
 
-export default EditRequest;
+export default NewUserDashboard;

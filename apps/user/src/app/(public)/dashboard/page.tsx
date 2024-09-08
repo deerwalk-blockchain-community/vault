@@ -4,6 +4,8 @@ import DashboardOverview from "./components/DashboardOverview";
 import useSWR from "swr";
 import { BASE_URL } from "@/lib/constants";
 import { useRouter } from "next/navigation";
+import Profile from "../form/components/Profile";
+import NewUserDashboard from "./components/NewUserDashboard";
 
 const fetcher = async (url: string, token: string): Promise<any> => {
   const response = await fetch(url, {
@@ -23,6 +25,7 @@ const token: string | null =
   typeof window !== "undefined"
     ? JSON.parse(JSON.stringify(localStorage.getItem("token") || ""))
     : null;
+
 const DashboardPage = () => {
   const router = useRouter();
   let rejectId;
@@ -50,14 +53,19 @@ const DashboardPage = () => {
 
   return (
     <section className="w-full">
-      <div className="w-[95%] mx-auto gap-8 flex flex-row">
+      <div className="w-[95%] relative mx-auto gap-8 flex flex-row">
         <SideBar />
+        <Profile />
         <div className="mt-10 w-full">
-          <DashboardOverview
-            handleReason={handleReason}
-            handleReapply={handleReapply}
-            data={user}
-          />
+          {user?.kyc ? (
+            <DashboardOverview
+              handleReason={handleReason}
+              handleReapply={handleReapply}
+              data={user}
+            />
+          ) : (
+            <NewUserDashboard />
+          )}
         </div>
       </div>
     </section>

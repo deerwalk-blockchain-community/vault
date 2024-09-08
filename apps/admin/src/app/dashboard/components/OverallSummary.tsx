@@ -38,7 +38,7 @@ const OverallSummary = () => {
             </p>
             <p className="flex flex-col lg:flex-row gap-2">
               <span>Rejected KYC </span>
-              <p>{11}</p>
+              <span>{11}</span>
               <InfoIcon className="max-w-5 hidden lg:block" />
             </p>
           </div>

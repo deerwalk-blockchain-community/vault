@@ -3,6 +3,7 @@ import React, { useState, useEffect, useLayoutEffect } from "react";
 import {
   Table,
   TableBody,
+  TableCaption,
   TableCell,
   TableHead,
   TableHeader,
@@ -137,7 +138,7 @@ const Datatable = ({
         method: "POST",
         headers: {
           "content-type": "application/json",
-          Authorization: `Bearer ${token}`,
+          Authorization: `Bearer ${JSON.parse(token)}`,
         },
         body: JSON.stringify({
           verdict: "ACCEPTED",
@@ -152,7 +153,7 @@ const Datatable = ({
 
       setDisplayedData((prevData) =>
         prevData.map((item) =>
-          item.kyc.id === userID
+          item.id === userID
             ? { ...item, kyc: { ...item.kyc, status: "ACCEPTED" } }
             : item
         )
@@ -170,7 +171,7 @@ const Datatable = ({
   if (!isMounted) return null;
 
   return (
-    <div className="bg-primary w-full p-5 rounded-lg">
+    <div className="bg-primary w-full p-5 rounded-lg" suppressHydrationWarning>
       <Table className="disabled:hover">
         <TableHeader>Recent Requests ({displayedData?.length})</TableHeader>
         <TableRow>
@@ -182,7 +183,9 @@ const Datatable = ({
           <TableHead></TableHead>
         </TableRow>
         {!data ? (
-          <div>Loading....</div>
+          <TableBody>
+            <TableCaption>Loading...</TableCaption>
+          </TableBody>
         ) : (
           displayedData?.map((cell: any, index: number) => (
             <TableBody key={index}>
@@ -224,16 +227,16 @@ const Datatable = ({
               <div className="flex flex-row">
                 <div className="flex flex-col">
                   <p>
-                    {selectedRecord.kyc.firstName} {selectedRecord.kyc.lastName}{" "}
-                    {selectedRecord.id}
+                    {selectedRecord?.kyc.firstName}{" "}
+                    {selectedRecord?.kyc.lastName} {selectedRecord?.id}
                   </p>
-                  <p>{selectedRecord.kyc.address}</p>
+                  <p>{selectedRecord?.kyc.address}</p>
                   <p>
                     {new Date(
-                      selectedRecord.kyc.createdAt
+                      selectedRecord?.kyc.createdAt
                     ).toLocaleDateString()}
                   </p>
-                  <p>{selectedRecord.kyc.status}</p>
+                  <p>{selectedRecord?.kyc.status}</p>
                 </div>
               </div>
               <div className="flex gap-5 justify-center">
@@ -263,7 +266,7 @@ const Datatable = ({
                 <Button
                   type="submit"
                   className="bg-green-500"
-                  onClick={() => handleAccept(selectedRecord.kyc.id)}
+                  onClick={() => handleAccept(selectedRecord?.id)}
                 >
                   Accept
                 </Button>

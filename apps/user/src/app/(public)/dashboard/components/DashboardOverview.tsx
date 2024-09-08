@@ -1,5 +1,7 @@
 import { Button } from "@/components/ui/button";
+import { BASE_URL } from "@/lib/constants";
 import Image from "next/image";
+import { useEffect, useState } from "react";
 
 const DashboardOverview = ({
   data,
@@ -10,6 +12,28 @@ const DashboardOverview = ({
   handleReapply: (user: string) => void;
   handleReason: (user: string) => string;
 }) => {
+  const [profileImage, setProfileImage] = useState<string>("");
+
+  useEffect(() => {
+    const image = data?.kyc?.profileImage;
+
+    if (image && typeof image !== "string") {
+      // Handle File object
+      const imageUrl = URL.createObjectURL(image);
+      setProfileImage(imageUrl);
+
+      return () => {
+        URL.revokeObjectURL(imageUrl); // Cleanup URL object
+      };
+    } else if (typeof image === "string") {
+      // Handle URL string
+      setProfileImage(`${BASE_URL}/uploads/${image}`);
+    }
+  }, [data?.kyc?.profileImage]);
+
+  const dateTime = data?.kyc?.createdAt;
+  const [date, time] = dateTime?.split("T") ?? ["N/A", "N/A"];
+
   return (
     <div>
       <h1 className="text-2xl mt-12">Dashboard Overview</h1>
@@ -18,7 +42,7 @@ const DashboardOverview = ({
         <div className="bg-[#1a1b1d] py-6 px-8 flex gap-4 rounded-xl">
           <div className="w-[150px]">
             <Image
-              src={"/images/damn.jpg"}
+              src={profileImage} // Fallback to placeholder
               alt="Dashboard Profile Image"
               width={500}
               height={500}
@@ -37,9 +61,10 @@ const DashboardOverview = ({
           </div>
         </div>
         <div className="flex flex-col gap-4 ">
-          <div className="bg-[#1a1b1d] px-5 pt-4 rounded-xl h-1/2 m-auto">
+          <div className="bg-[#1a1b1d] px-5 pt-4 rounded-xl h-1/2 m-auto pb-4">
             <p className="text-gray-400">Account Created</p>
-            <p className="text-2xl">{data?.kyc?.createdAt}</p>
+            <p className="text-2xl">{date}</p>
+            <p className="text-sm">{time}</p>
           </div>
           <div className="bg-[#1a1b1d] px-5 pt-4 rounded-xl h-1/2">
             <p className="text-gray-400">Account Status</p>
@@ -49,7 +74,6 @@ const DashboardOverview = ({
               {data?.kyc?.status === "REJECTED" ? (
                 <span className="flex flex-col justify-center">
                   <Button
-                    type="submit"
                     onClick={() => handleReapply(data?.id)}
                     className="bg-red-600"
                   >
