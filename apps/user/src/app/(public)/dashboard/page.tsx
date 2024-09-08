@@ -43,7 +43,8 @@ const DashboardPage = () => {
     let rejectedUser = rejection?.find(
       (item: any) => item.kyc?.userId === user_id
     );
-    return rejectedUser?.reason || "No reason available";
+    console.log(rejectedUser);
+    return rejectedUser?.reason || "Submit proper document front photo";
   };
 
   const handleReapply = (user_id: string) => {
