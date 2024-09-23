@@ -18,9 +18,9 @@ import {
   ChartTooltipContent,
 } from "@/components/ui/chart";
 const chartData = [
-  { day: "Sun", approved: 186, rejected: 80 },
-  { day: "Mon", approved: 305, rejected: 200 },
-  { day: "Tue", approved: 237, rejected: 120 },
+  { day: "Sun", approved: 2, rejected: 1 },
+  { day: "Mon", approved: 3, rejected: 4 },
+  { day: "Tue", approved: 1, rejected: 2 },
 ];
 
 const chartConfig = {

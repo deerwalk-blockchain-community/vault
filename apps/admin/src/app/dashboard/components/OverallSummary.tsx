@@ -25,7 +25,7 @@ const OverallSummary = () => {
         <div className="flex flex-col justify-center lg:gap-5">
           <div className="flex flex-col justify-center gap-2">
             <p className="flex gap-2 ">
-              <SendIcon className="max-w-5 hidden lg:block" /> <span>52</span>
+              <SendIcon className="max-w-5 hidden lg:block" /> <span>32</span>
             </p>
             <p className="flex gap-2">
               <span>Total KYC filled </span>
@@ -34,11 +34,11 @@ const OverallSummary = () => {
           </div>
           <div className="flex flex-col gap-2">
             <p className="flex gap-2">
-              <CrossIcon className="max-w-5 hidden lg:block" /> <span>52</span>
+              <CrossIcon className="max-w-5 hidden lg:block" /> <span>20</span>
             </p>
-            <p className="flex flex-col lg:flex-row gap-2">
+            <p className="flex flex-row lg:flex-row gap-2">
               <span>Rejected KYC </span>
-              <span>{11}</span>
+              {/* <span>{4}</span> */}
               <InfoIcon className="max-w-5 hidden lg:block" />
             </p>
           </div>
